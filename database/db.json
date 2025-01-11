@@ -1,0 +1,373 @@
+{
+    "candidates": [
+        {
+            "id": 1,
+            "name": "John Smith",
+            "number": "01",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "johnsmith01@gmail.com",
+            "profile_image": "01.jpg"
+        },
+        {
+            "id": 2,
+            "name": "James Williams",
+            "number": "02",
+            "gender": "male",
+            "major": "Electrical Power Engineering",
+            "email": "jameswilliams02@gmail.com",
+            "profile_image": "02.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Emily Johnson",
+            "number": "03",
+            "gender": "female",
+            "major": "Mechanical Engineering",
+            "email": "emilyjohnson03@gmail.com",
+            "profile_image": "03.jpg"
+        },
+        {
+            "id": 4,
+            "name": "Olivia Brown",
+            "number": "04",
+            "gender": "female",
+            "major": "Civil Engineering",
+            "email": "oliviabrown04@gmail.com",
+            "profile_image": "04.jpg"
+        },
+        {
+            "id": 5,
+            "name": "Michael Taylor",
+            "number": "05",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "michaeltaylor05@gmail.com",
+            "profile_image": "05.jpg"
+        },
+        {
+            "id": 6,
+            "name": "Sophia Clark",
+            "number": "06",
+            "gender": "female",
+            "major": "Electrical Power Engineering",
+            "email": "sophiaclark06@gmail.com",
+            "profile_image": "06.jpg"
+        },
+        {
+            "id": 7,
+            "name": "Daniel Harris",
+            "number": "07",
+            "gender": "male",
+            "major": "Mechanical Engineering",
+            "email": "danielharris07@gmail.com",
+            "profile_image": "07.jpg"
+        },
+        {
+            "id": 8,
+            "name": "Ava Lewis",
+            "number": "08",
+            "gender": "female",
+            "major": "Civil Engineering",
+            "email": "avalewis08@gmail.com",
+            "profile_image": "08.jpg"
+        },
+        {
+            "id": 9,
+            "name": "Lucas Walker",
+            "number": "09",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "lucaswalker09@gmail.com",
+            "profile_image": "09.jpg"
+        },
+        {
+            "id": 10,
+            "name": "Isabella Scott",
+            "number": "10",
+            "gender": "female",
+            "major": "Electrical Power Engineering",
+            "email": "isabellascott10@gmail.com",
+            "profile_image": "10.jpg"
+        },
+        {
+            "id": 11,
+            "name": "Benjamin Young",
+            "number": "11",
+            "gender": "male",
+            "major": "Mechanical Engineering",
+            "email": "benjaminyoung11@gmail.com",
+            "profile_image": "11.jpg"
+        },
+        {
+            "id": 12,
+            "name": "Charlotte King",
+            "number": "12",
+            "gender": "female",
+            "major": "Civil Engineering",
+            "email": "charlotteking12@gmail.com",
+            "profile_image": "12.jpg"
+        },
+        {
+            "id": 13,
+            "name": "Ethan Wright",
+            "number": "13",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "ethanwright13@gmail.com",
+            "profile_image": "13.jpg"
+        },
+        {
+            "id": 14,
+            "name": "Amelia Green",
+            "number": "14",
+            "gender": "female",
+            "major": "Electrical Power Engineering",
+            "email": "ameliagreen14@gmail.com",
+            "profile_image": "14.jpg"
+        },
+        {
+            "id": 15,
+            "name": "Mason Adams",
+            "number": "15",
+            "gender": "male",
+            "major": "Mechanical Engineering",
+            "email": "masonadams15@gmail.com",
+            "profile_image": "15.jpg"
+        },
+        {
+            "id": 16,
+            "name": "Mia Carter",
+            "number": "16",
+            "gender": "female",
+            "major": "Civil Engineering",
+            "email": "miacarter16@gmail.com",
+            "profile_image": "16.jpg"
+        },
+        {
+            "id": 17,
+            "name": "Alexander Baker",
+            "number": "17",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "alexanderbaker17@gmail.com",
+            "profile_image": "17.jpg"
+        },
+        {
+            "id": 18,
+            "name": "Grace Mitchell",
+            "number": "18",
+            "gender": "female",
+            "major": "Electrical Power Engineering",
+            "email": "gracemitchell18@gmail.com",
+            "profile_image": "18.jpg"
+        },
+        {
+            "id": 19,
+            "name": "Matthew Perez",
+            "number": "19",
+            "gender": "male",
+            "major": "Mechanical Engineering",
+            "email": "matthewperez19@gmail.com",
+            "profile_image": "19.jpg"
+        },
+        {
+            "id": 20,
+            "name": "Harper Evans",
+            "number": "20",
+            "gender": "female",
+            "major": "Civil Engineering",
+            "email": "harperevans20@gmail.com",
+            "profile_image": "20.jpg"
+        },
+        {
+            "id": 21,
+            "name": "Jack Davis",
+            "number": "21",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "jackdavis21@gmail.com",
+            "profile_image": "21.jpg"
+        },
+        {
+            "id": 22,
+            "name": "Chloe Martin",
+            "number": "22",
+            "gender": "female",
+            "major": "Electrical Power Engineering",
+            "email": "chloemartin22@gmail.com",
+            "profile_image": "22.jpg"
+        },
+        {
+            "id": 23,
+            "name": "Sebastian Thompson",
+            "number": "23",
+            "gender": "male",
+            "major": "Mechanical Engineering",
+            "email": "sebastianthompson23@gmail.com",
+            "profile_image": "23.jpg"
+        },
+        {
+            "id": 24,
+            "name": "Lily White",
+            "number": "24",
+            "gender": "female",
+            "major": "Civil Engineering",
+            "email": "lilywhite24@gmail.com",
+            "profile_image": "24.jpg"
+        },
+        {
+            "id": 25,
+            "name": "William Harris",
+            "number": "25",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "williamharris25@gmail.com",
+            "profile_image": "25.jpg"
+        },
+        {
+            "id": 26,
+            "name": "Zoe Robinson",
+            "number": "26",
+            "gender": "female",
+            "major": "Electrical Power Engineering",
+            "email": "zoerobinson26@gmail.com",
+            "profile_image": "26.jpg"
+        },
+        {
+            "id": 27,
+            "name": "James Moore",
+            "number": "27",
+            "gender": "male",
+            "major": "Mechanical Engineering",
+            "email": "jamesmoore27@gmail.com",
+            "profile_image": "27.jpg"
+        },
+        {
+            "id": 28,
+            "name": "Ella King",
+            "number": "28",
+            "gender": "female",
+            "major": "Civil Engineering",
+            "email": "ellaking28@gmail.com",
+            "profile_image": "28.jpg"
+        },
+        {
+            "id": 29,
+            "name": "Samuel Lee",
+            "number": "29",
+            "gender": "male",
+            "major": "Electronic Engineering",
+            "email": "samuellee29@gmail.com",
+            "profile_image": "29.jpg"
+        },
+        {
+            "id": 30,
+            "name": "Madison Allen",
+            "number": "30",
+            "gender": "female",
+            "major": "Electrical Power Engineering",
+            "email": "madisonallen30@gmail.com",
+            "profile_image": "30.jpg"
+        }
+    ],
+
+    "users": [
+        {
+            "id": 1,
+            "name": "Daniel Wright",
+            "major": "Mechanical Engineering",
+            "email": "danielwright31@gmail.com",
+            "profile_image": "31.jpg",
+            "password": "Password123"
+        },
+        {
+            "id": 2,
+            "name": "Isabella Carter",
+            "major": "Civil Engineering",
+            "email": "isabellacarter32@gmail.com",
+            "profile_image": "32.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 3,
+            "name": "Henry Johnson",
+            "major": "Electronic Engineering",
+            "email": "henryjohnson33@gmail.com",
+            "profile_image": "33.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 4,
+            "name": "Victoria Clark",
+            "major": "Electrical Power Engineering",
+            "email": "victoriaclark34@gmail.com",
+            "profile_image": "34.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 5,
+            "name": "Ethan Taylor",
+            "major": "Mechanical Engineering",
+            "email": "ethantaylor35@gmail.com",
+            "profile_image": "35.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 6,
+            "name": "Megan Lee",
+            "major": "Civil Engineering",
+            "email": "meganlee36@gmail.com",
+            "profile_image": "36.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 7,
+            "name": "Oliver Miller",
+            "major": "Electronic Engineering",
+            "email": "olivermiller37@gmail.com",
+            "profile_image": "37.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 8,
+            "name": "Charlotte Harris",
+            "major": "Electrical Power Engineering",
+            "email": "charlotteharris38@gmail.com",
+            "profile_image": "38.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 9,
+            "name": "Jacob Robinson",
+            "major": "Mechanical Engineering",
+            "email": "jacobrobinson39@gmail.com",
+            "profile_image": "39.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 10,
+            "name": "Grace Walker",
+            "major": "Civil Engineering",
+            "email": "gracewalker40@gmail.com",
+            "profile_image": "40.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 11,
+            "name": "Aiden Young",
+            "major": "Electronic Engineering",
+            "email": "aidenyoung41@gmail.com",
+            "profile_image": "41.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        },
+        {
+            "id": 12,
+            "name": "Chloe Scott",
+            "major": "Electrical Power Engineering",
+            "email": "chloescott42@gmail.com",
+            "profile_image": "42.jpg",
+            "password": "$2b$10$E3Qd2TqcyFJJbdw4hRvrYOJshzvEIXyzPHHhEwKnEYrtIOtWR.JMi"
+        }
+    ]
+}

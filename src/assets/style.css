@@ -1,0 +1,60 @@
+#countdown {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .circle svg {
+    transform: rotate(-90deg);
+  }
+  
+  .circle .progress {
+    fill: none;
+    stroke-width: 12;
+    stroke-linecap: round;
+    transform-origin: center;
+    transition: stroke 0.3s ease; /* Smooth transition for color change */
+  }
+  
+  .circle .background {
+    fill: none;
+    stroke: rgba(0, 0, 0, 0.14);
+    stroke-width: 12;
+  }
+  
+  .circle .label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Specific Colors for Progress Bars */
+  #progress-days {
+    stroke: #FFD700; /* Gold */
+  }
+  
+  #progress-hours {
+    stroke: #1E90FF; /* DodgerBlue */
+  }
+  
+  #progress-minutes {
+    stroke: #32CD32; /* LimeGreen */
+  }
+  
+  #progress-seconds {
+    stroke: #FF4500; /* OrangeRed */
+  }
+  
+  /* Optional: Hover Effect for Labels */
+  .circle .label span:hover {
+    color: #FF4500;
+    transition: color 0.3s ease;
+  }
+  
