@@ -155,12 +155,7 @@ export default {
         }
 
         let { userData, error} =  getUserById(userId);
-
-        if (userId && userData.value) {
             registeredUser.value = userData.value;
-        }
-
-
 
         const checkEmail = async (email) => {
             const { users, error, load } = getAllUser();

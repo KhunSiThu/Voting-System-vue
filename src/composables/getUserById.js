@@ -4,6 +4,10 @@ const getUserById = (id) => {
     const userData = ref({});
     const error = ref("");
 
+    if(id===null) {
+        return { userData, error };
+    }
+
     const load = async () => {
         try {
             const response = await fetch(" http://localhost:3000/users/" + id);
