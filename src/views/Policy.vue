@@ -9,7 +9,7 @@
             </div>
         </header>
 
-        <div class="p-20">
+        <div class="p-5 md:p-20">
             <!-- Overview Section -->
             <section class="space-y-8">
                 <h2 class="text-3xl font-semibold text-blue-600 dark:text-blue-400">Overview</h2>

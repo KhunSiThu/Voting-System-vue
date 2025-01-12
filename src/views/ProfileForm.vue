@@ -185,7 +185,7 @@ export default {
                 }
 
                 try {
-                    const response = await fetch('http://0.0.0.0:9000/public/controllers/sendVerifyCode.php', {
+                    const response = await fetch('http://172.30.1.36:9000/public/controllers/sendVerifyCode.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

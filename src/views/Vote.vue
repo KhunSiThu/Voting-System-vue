@@ -106,14 +106,107 @@
                     </div>
                     <h2 class="text-2xl font-bold text-blue-800 dark:text-white mt-4 mb-2">{{ candidate.name }}</h2>
                     <p class="font-bold text-gray-700 dark:text-gray-300">Major - {{ candidate.major }}</p>
-                    <button class="m-7 font-bold hover:text-white border rounded-lg py-2 px-3 transition" :class="[
-                        candidate.gender === 'male'
-                            ? 'text-blue-400 hover:bg-blue-400 border-blue-400 bg-blue-50  dark:border-blue-500 dark:bg-transparent dark:hover:bg-blue-400'
-                            : 'text-pink-400 hover:bg-pink-400 border-pink-400 bg-pink-50  dark:border-pink-500 dark:bg-transparent dark:hover:bg-pink-400'
-                    ]">
+                    <button @click="openModal(candidate)"
+                        class="m-7 font-bold hover:text-white border rounded-lg py-2 px-3 transition" :class="[
+                            candidate.gender === 'male'
+                                ? 'text-blue-400 hover:bg-blue-400 border-blue-400 bg-blue-50 dark:border-blue-500 dark:bg-transparent dark:hover:bg-blue-400'
+                                : 'text-pink-400 hover:bg-pink-400 border-pink-400 bg-pink-50 dark:border-pink-500 dark:bg-transparent dark:hover:bg-pink-400'
+                        ]">
                         Vote Now
                     </button>
 
+
+                </div>
+            </div>
+
+            <!-- Confirm model Box -->
+
+            <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 bg-blur">
+                <div class="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full">
+                    <!-- Close Button -->
+                    <button @click="closeModal"
+                        class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 transition">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+
+                    <!-- Modal Header -->
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Confirm Your Vote</h2>
+                        <p class="text-base text-gray-600 mt-2 dark:text-gray-400">
+                            Every vote matters. Make sure your choice is final!
+                        </p>
+                    </div>
+
+                    <!-- Candidate Details -->
+                    <div class="text-center mb-8">
+                        <img src="https://img.freepik.com/free-photo/confident-asian-woman-face-portrait-smiling_53876-144815.jpg?ga=GA1.1.518632610.1735269050&semt=ais_hybrid"
+                            alt="Candidate Image" class="w-28 h-28 mx-auto rounded-full object-cover shadow-lg border-4"
+                            :class="selectedCandidate.gender === 'male' ? 'border-blue-500' : 'border-pink-500'">
+                        <h3 class="text-2xl font-bold mt-4 text-gray-800 dark:text-white">
+                            {{ selectedCandidate.name }}
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            Major : {{ selectedCandidate.major }}
+                        </p>
+                    </div>
+
+                    <!-- Voting Policy Section -->
+                    <div class="bg-gray-100 dark:bg-gray-700 p-5 rounded-lg mb-8 shadow-md">
+                        <h4 class="text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200">Voting Policy</h4>
+                        <ul
+                            class="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-2 prose text-justify">
+                            <li>Each student can vote for one King and one Queen in their major.</li>
+                            <li>Votes are restricted to candidates within your academic major.</li>
+                            <li>Once confirmed, votes cannot be changed or revoked.</li>
+                            <li>Suspicious activities or duplicate votes will result in disqualification.</li>
+                            <li>Voting will close strictly at the deadline. Late votes will not be counted.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Modal Actions -->
+                    <div class="flex justify-center gap-4">
+                        <button @click="confirmVote"
+                            class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition">
+                            Confirm
+                        </button>
+                        <button @click="closeModal"
+                            class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Success Modal Box -->
+            <div v-if="showSuccessModal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 bg-blur">
+                <div class="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full m-4">
+                    <!-- Close Button -->
+                    <button @click="closeSuccessModal"
+                        class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 transition">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+
+                    <div>
+                        <img src="../Images/success-tick-dribbble.gif" class="w-30" alt="">
+                    </div>
+
+                    <!-- Modal Header -->
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl font-extrabold text-green-500">Success!</h2>
+                        <p class="text-base text-gray-600 mt-2 dark:text-gray-400">
+                            Your vote has been successfully confirmed.
+                        </p>
+                    </div>
+
+                    <!-- Modal Actions -->
+                    <div class="flex justify-center gap-4">
+                        <button @click="closeSuccessModal"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition">
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -139,7 +232,6 @@ export default {
     components: {
         SideBar
     },
-
     setup() {
 
         let userId = localStorage.getItem("userId");
@@ -162,11 +254,11 @@ export default {
             king_queen.value = select.value === 'male' ? 'KING' : 'QUEEN';
         };
 
-        let filterCandidates =  computed(() => {
+        let filterCandidates = computed(() => {
             return candidates.value.filter((candidate) => {
                 return candidate.gender === select.value && candidate.major === userData.value.major
             })
-        })
+        });
 
         let {
             dayString,
@@ -177,6 +269,31 @@ export default {
         } = deadLine();
 
         updateCountdown();
+
+        // Modal Box 
+        const showModal = ref(false);
+        const selectedCandidate = ref(null);
+        const showSuccessModal = ref(false);  // New success modal reactive reference
+
+        const openModal = (candidate) => {
+            selectedCandidate.value = candidate;
+            showModal.value = true;
+        };
+
+        const closeModal = () => {
+            showModal.value = false;
+            selectedCandidate.value = null;
+        };
+
+        const confirmVote = () => {
+            // alert(`You have voted for ${selectedCandidate.value.name}!`);
+            closeModal();
+            showSuccessModal.value = true;  // Show the success modal
+        };
+
+        const closeSuccessModal = () => {
+            showSuccessModal.value = false;  // Close the success modal
+        };
 
         return {
             dayString,
@@ -189,16 +306,24 @@ export default {
 
             select,
             king_queen,
-            userData
+            userData,
+
+            showModal,
+            selectedCandidate,
+            openModal,
+            closeModal,
+            confirmVote,
+
+            // Success modal handling
+            showSuccessModal,
+            closeSuccessModal
         }
     }
+
 }
 
-// const daysEl = document.getElementById("days");
-// const hoursEl = document.getElementById("hours");
-// const minutesEl = document.getElementById("minutes");
-// const secondsEl = document.getElementById("seconds");
-// const expiredEl = document.getElementById("expired");
 </script>
 
-<style></style>
+<style>
+
+</style>
