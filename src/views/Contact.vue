@@ -2,7 +2,7 @@
   <SideBar></SideBar>
 
   <div class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 p-32">
       <!-- Contact Information -->
       <div class="space-y-6">
         <h2 class="text-2xl font-bold text-blue-500 dark:text-blue-400">Our Contact Details</h2>

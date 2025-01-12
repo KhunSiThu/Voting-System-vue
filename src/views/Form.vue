@@ -1,7 +1,8 @@
 <template>
-  
+
     <div class="w-screen h-screen flex justify-center items-center">
         <div class="w-[360px]">
+
             <div v-if="registeredUser" class="flex items-center justify-center bg-opacity-50 mb-10">
                 <div class="bg-white rounded-lg shadow-lg w-80 p-6">
                     <div class="flex items-center justify-between mb-4">
@@ -16,7 +17,7 @@
                 </div>
             </div>
 
-            
+            <div>{{ userData.status }}</div>
 
             <!-- Register Form -->
             <div v-if="isRegister && !registeredUser" class="mb-6">
@@ -71,7 +72,7 @@
                     <button @click="toggleForm" class="text-blue-600 hover:text-blue-800">Login</button>
                 </div>
 
-                
+
             </div>
 
             <!-- Login Form -->
@@ -122,18 +123,18 @@
 </template>
 
 <script>
+
+
 import getAllUser from "@/composables/getAllUser";
+import getUserById from "@/composables/getUserById";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default {
     setup() {
 
-        const getRegisteredUser = () => {
-            const user = sessionStorage.getItem("registeredUser");
-            
-            return user ? JSON.parse(user) : null;
-        };
+        let route = useRouter();
+
 
         const isRegister = ref(true);
         const email = ref("");
@@ -144,27 +145,22 @@ export default {
         const emailError = ref("");
         const passwordVisible = ref(false);
         const confirmPasswordVisible = ref(false);
-        const registeredUser = ref(getRegisteredUser());
+        const registeredUser = ref(null);
+
+        let userId = localStorage.getItem("userId");
+        let status = localStorage.getItem("status");
+
+        if(status === 'active') {
+            route.push('/HomeView')
+        }
+
+        let { userData, error} =  getUserById(userId);
+
+        if (userId && userData.value) {
+            registeredUser.value = userData.value;
+        }
 
 
-
-        let route = useRouter();
-
-        const checkLoginEmail = async (email, password) => {
-            const { users, error, load } = getAllUser();
-            await load();
-            if (error.value) {
-                emailError.value = error.value;
-                return;
-            }
-            const user = users.value.find((user) => user.email === email);
-            if (user && password.toString() === user.password.toString()) {
-                passwordError.value = "";
-                route.push("/Verify");
-            } else {
-                passwordError.value = "Incorrect password!";
-            }
-        };
 
         const checkEmail = async (email) => {
             const { users, error, load } = getAllUser();
@@ -194,7 +190,7 @@ export default {
             }
         };
 
-        const validateEmail = () => {
+        const validateEmail = async () => {
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             emailError.value = "";
 
@@ -203,7 +199,7 @@ export default {
             }
         };
 
-        const validatePassword = () => {
+        const validatePassword = async () => {
             passwordError.value = "";
 
             if (password.value.length < 8) {
@@ -222,19 +218,22 @@ export default {
         const handleRegister = async () => {
             emailError.value = "";
             passwordError.value = "";
-            validateEmail();
-            validatePassword();
+
+            await validateEmail();
+            await validatePassword();
             await checkEmail(email.value);
 
             if (!emailError.value && !passwordError.value && password.value === confirmPassword.value) {
-                alert("Registration successful!");
+
                 const user = {
                     email: email.value,
                     password: password.value
                 };
-                sessionStorage.setItem("registeredUser", JSON.stringify(user));
-                // toggleForm();
-                registeredUser.value = getRegisteredUser();
+
+                sessionStorage.setItem("registeredUser", JSON.stringify(user))
+
+                route.push('/ProfileForm');
+
             } else if (password.value !== confirmPassword.value) {
                 errorMessage.value = "Passwords do not match.";
             }
@@ -248,24 +247,24 @@ export default {
                 errorMessage.value = "Please fill out all fields.";
             } else {
 
-                console.log(registeredUser.value.password)
-                    if(registeredUser.value.email === email.value) {
+                if (userData.value.email === email.value) {
 
-                        if(registeredUser.value.password === password.value) {
-                            route.push('/ProfileForm');
-                        } else {
-                            passwordError.value = "Password Incorrect!";
-                        }
+                    if (userData.value.password === password.value) {
+                        localStorage.setItem("status", "active");
+                        route.push("/HomeView")
 
                     } else {
-                        emailError.value = "Isn't you account!"
+                        passwordError.value = "Password Incorrect!";
                     }
-              
-                
+
+                } else {
+                    emailError.value = "Isn't you account!"
+                }
+
             }
         };
 
-        // sessionStorage.clear();
+       
 
 
         return {
@@ -283,6 +282,7 @@ export default {
             togglePasswordVisibility,
             handleRegister,
             handleLogin,
+            userData
         };
     },
 };

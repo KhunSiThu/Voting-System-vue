@@ -47,7 +47,7 @@
         <div v-if="error">
             <p class="text-red-500">{{ error }}</p>
         </div>
-        <div v-else id="candidates-show-con" class=" mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-16">
+        <div v-else id="candidates-show-con" class=" mx-5 md:mx-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-16">
 
             <!-- Candidate Card -->
             <div v-for="candidate in filterCandidates" :key="candidate.id" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700">

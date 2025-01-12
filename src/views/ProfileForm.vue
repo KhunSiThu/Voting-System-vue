@@ -134,29 +134,46 @@ export default {
                 return;
             }
 
-            let addUser = async () => {
-                await fetch("http://localhost:3000/users", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        name: fullName.value,
-                        email: user.email,
-                        password: user.password,
-                        major: selectedMajor.value,
-                        profile_image: profileImage.value 
-                    })
-                })
-                .then(()=>{
-                    return true
-                }) 
-                .catch(() => {
-                    return false
-                })
-
+            let addUser = async (code) => {
                 
-            }
+                function generateUniqueId() {
+                    return 'id-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+                }
+
+                let id = generateUniqueId();
+                localStorage.setItem("userId", id);
+                const userData = {
+                    id: id,
+                    name: fullName.value,
+                    email: user.email,
+                    password: user.password,
+                    major: selectedMajor.value,
+                    profile_image: profileImage.value,
+                    status: "active",
+                    verify: code
+                };
+
+                try {
+                    const response = await fetch(" http://172.30.1.36:3000/users", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(userData)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to add user");
+                    }a
+                    
+                    
+
+                } catch (error) {
+                    console.error("Error occurred while adding user:", error);
+                    // Optionally handle the error by displaying a message to the user.
+                }
+            };
+
 
             const sendVerifyCode = async () => {
                 loading.value = true;
@@ -168,7 +185,7 @@ export default {
                 }
 
                 try {
-                    const response = await fetch('http://localhost:9000/sendVerifyCode.php', {
+                    const response = await fetch('http://0.0.0.0:9000/public/controllers/sendVerifyCode.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -188,7 +205,7 @@ export default {
 
                     if (data.success) {
                         sessionStorage.setItem("verifyCode", data.verityCode);
-                        await addUser();
+                        await addUser(data.verityCode);
                         route.push('/Verify')
 
                     } else {

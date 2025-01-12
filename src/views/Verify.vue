@@ -26,7 +26,7 @@
             <h4 class="text-xl font-medium text-gray-800">Verification Code</h4>
             <p class="text-center text-gray-600">
                 Please enter the 4-digit verification code <br />
-                we sent to your email <strong>{{ userEmail }}</strong>.
+                we sent to your email <strong class="text-blue-400"> {{ userData.email }}</strong>.
             </p>
 
             <!-- OTP Form -->
@@ -50,11 +50,13 @@
                     Resend OTP code
                 </button>
             </form>
+
         </div>
     </div>
 </template>
 
 <script>
+import getUserById from "@/composables/getUserById";
 import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -63,6 +65,9 @@ export default {
 
         let route = useRouter();
 
+        let userId = localStorage.getItem("userId");
+
+        let {userData,error} = getUserById(userId);
 
         const otp = reactive(["", "", "", ""]);
         const isLoading = ref(false);
@@ -70,8 +75,6 @@ export default {
         const messageType = ref("");
         const userEmail = ref("user@example.com");
         const inputRefs = ref([]);
-
-
 
         const isOtpComplete = computed(() => otp.every((char) => char.length === 1));
 
@@ -88,17 +91,20 @@ export default {
         };
 
         const handleVerify = () => {
+
             isLoading.value = true;
 
-            const storedOtp = sessionStorage.getItem("verifyCode");
+            const storedOtp = userData.value.verify;
+
             const enteredOtp = otp.join(""); // Combine OTP inputs into a single string
 
             if (storedOtp === enteredOtp) {
                 message.value = "OTP verified successfully";
                 messageType.value = "success";
 
-                route.push('/HomeView')
-                
+                sessionStorage.clear();
+                route.push('/');
+
             } else {
                 message.value = "Invalid OTP. Please try again.";
                 messageType.value = "error";
@@ -131,6 +137,7 @@ export default {
             handleVerify,
             handleResend,
             setInputRef,
+            userData
         };
     },
 };
