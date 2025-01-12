@@ -155,7 +155,10 @@ export default {
         }
 
         let { userData, error} =  getUserById(userId);
+        
+        if(userId) {
             registeredUser.value = userData.value;
+        }
 
         const checkEmail = async (email) => {
             const { users, error, load } = getAllUser();
