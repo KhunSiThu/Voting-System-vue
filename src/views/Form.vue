@@ -1,7 +1,7 @@
 <template>
 
     <div class="w-screen h-screen flex justify-center items-center">
-        <div class="w-[360px]">
+        <div class="w-full md:w-[360px] p-8 md:p-0">
 
             <div v-if="registeredUser" class="flex items-center justify-center bg-opacity-50 mb-10">
                 <div class="bg-white rounded-lg shadow-lg w-80 p-6">
