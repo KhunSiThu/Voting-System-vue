@@ -1,4 +1,5 @@
 <template>
+    <Loading v-if="loading"></Loading>
     <div class="flex items-center justify-center w-screen h-screen">
 
         <div class="w-[400px] flex justify-center items-center flex-col">
@@ -53,7 +54,7 @@
                     class="py-3 w-32 px-6 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white rounded-lg text-lg font-medium shadow-lg transform transition-transform hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300">
                     Reset
                 </button>
-            
+
                 <button @click="submitForm"
                     class="py-3 w-32 px-6 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white rounded-lg text-lg font-medium shadow-lg transform transition-transform hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300">
                     Confirm
@@ -67,15 +68,21 @@
 </template>
 
 <script>
+import Loading from "@/components/Loading.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default {
+    components: {
+        Loading
+    },
     setup() {
 
+        let loading = ref(false);
 
         let route = useRouter();
 
+        let user = JSON.parse(sessionStorage.getItem("registeredUser"));
 
         const profileImage = ref(""); // Profile image preview
         const defaultImage = ref("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvbNq2LBNwU__YfunpRuckZs6tVQsqA272jw&s"); // Default placeholder
@@ -127,10 +134,78 @@ export default {
                 return;
             }
 
-            alert("Form submitted successfully.");
-            resetForm(); // Optional: Reset form after successful submission
+            let addUser = async () => {
+                await fetch("http://localhost:3000/users", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: fullName.value,
+                        email: user.email,
+                        password: user.password,
+                        major: selectedMajor.value,
+                        profile_image: profileImage.value 
+                    })
+                })
+                .then(()=>{
+                    return true
+                }) 
+                .catch(() => {
+                    return false
+                })
 
-            route.push('/HomeView');
+                
+            }
+
+            const sendVerifyCode = async () => {
+                loading.value = true;
+
+                // Check if user.email, user.password, and fullName.value are defined
+                if (!user.email || !user.password || !fullName.value) {
+                    console.error('Email, password or full name is missing.');
+                    return; // Exit if any required field is missing
+                }
+
+                try {
+                    const response = await fetch('http://localhost:9000/sendVerifyCode.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: user.email,
+                            password: user.password,
+                            name: fullName.value
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        sessionStorage.setItem("verifyCode", data.verityCode);
+                        await addUser();
+                        route.push('/Verify')
+
+                    } else {
+                        console.error('Failed to send verification code.');
+                    }
+
+                } catch (error) {
+                    console.error('There was an error fetching the data:', error);
+                }
+            };
+
+            sendVerifyCode();
+
+
+
+
+
         };
 
         return {
@@ -144,6 +219,7 @@ export default {
             handleImageChange,
             resetForm,
             submitForm,
+            loading
         };
     },
 };

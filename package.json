@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "dev": "json-server --watch database/db.json"
+    "dev": "json-server --watch database/db.json",
+    "php-server": "php -S localhost:9000 -t ./src/assets/controllers",
+    "start": "concurrently \"npm run serve\" \"npm run php-server\" \"npm run dev\""
   },
   "dependencies": {
     "autoprefixer": "^10",
@@ -23,6 +25,7 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "concurrently": "^9.1.2",
     "vue-cli-plugin-tailwind": "~3.0.0"
   }
 }

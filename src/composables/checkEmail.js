@@ -1,3 +1,0 @@
-let checkEmail = (email) => {
-    
-}

@@ -71,12 +71,7 @@ export default {
         const userEmail = ref("user@example.com");
         const inputRefs = ref([]);
 
-        const generateOtp = () => {
-            return Math.floor(1000 + Math.random() * 9000).toString(); // Generate a random 4-digit OTP
-        };
 
-        const newOtp = generateOtp(); // Generate a new OTP
-        localStorage.setItem("otp", newOtp);
 
         const isOtpComplete = computed(() => otp.every((char) => char.length === 1));
 
@@ -95,14 +90,14 @@ export default {
         const handleVerify = () => {
             isLoading.value = true;
 
-            const storedOtp = localStorage.getItem("otp");
+            const storedOtp = sessionStorage.getItem("verifyCode");
             const enteredOtp = otp.join(""); // Combine OTP inputs into a single string
 
             if (storedOtp === enteredOtp) {
                 message.value = "OTP verified successfully";
                 messageType.value = "success";
 
-                route.push('/ProfileForm')
+                route.push('/HomeView')
                 
             } else {
                 message.value = "Invalid OTP. Please try again.";
