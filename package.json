@@ -5,8 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "php-server": "php -S localhost:9000",
-    "dev": "json-server --host localhost --port 3000 --watch ./database/db.json",
+    "php-server": "php -S 0.0.0.0:9000",
+    "dev": "json-server --host 0.0.0.0 --port 3000 --watch ./database/db.json",
     "start": "concurrently \"npm run serve\" \"npm run php-server\" \"npm run dev\""
   },
   "dependencies": {

@@ -154,7 +154,7 @@ export default {
                 };
 
                 try {
-                    const response = await fetch(" http://localhost:3000/users", {
+                    const response = await fetch(" http://0.0.0.0:3000/users", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -185,7 +185,7 @@ export default {
                 }
 
                 try {
-                    const response = await fetch('http://localhost:9000/public/controllers/sendVerifyCode.php', {
+                    const response = await fetch('http://0.0.0.0:9000/public/controllers/sendVerifyCode.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
