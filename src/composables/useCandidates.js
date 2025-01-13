@@ -6,7 +6,7 @@ const useCandidates = () => {
 
     const load = async () => {
         try {
-            const response = await fetch("http://0.0.0.0:3000/candidates");
+            const response = await fetch("https://voting-system-vue-1.onrender.com/candidates");
 
             if (response.status === 404) {
                 throw new Error("URL Not Found!");
