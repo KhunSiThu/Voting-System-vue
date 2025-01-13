@@ -6,7 +6,7 @@ const getAllUser = () => {
 
     const load = async () => {
         try {
-            const response = await fetch("https://voting-system-vue-1.onrender.com/users/");
+            const response = await fetch("http://172.30.1.36:3000/users");
             if (response.status === 404) {
                 throw new Error("URL Not Found!");
             }
