@@ -10,6 +10,7 @@ import ProfileForm from '@/views/ProfileForm.vue'
 import StudentForm from '@/views/StudentForm.vue'
 import TeacherForm from '@/views/TeacherForm.vue'
 import Role from '@/views/Role.vue'
+import SelectMajor from '@/views/SelectMajor.vue'
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
     path: '/StudentForm',
     name: 'StudentForm',
     component: StudentForm
+  },
+  {
+    path: '/SelectMajor',
+    name: 'SelectMajor',
+    component: SelectMajor
   },
   {
     path: '/TeacherForm',
