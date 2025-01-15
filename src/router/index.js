@@ -5,15 +5,27 @@ import Vote from '@/views/Vote.vue'
 import Results from '@/views/Results.vue'
 import Policy from '@/views/Policy.vue'
 import Contact from '@/views/Contact.vue'
-import Form from '@/views/Form.vue'
 import Verify from '@/views/Verify.vue'
 import ProfileForm from '@/views/ProfileForm.vue'
+import StudentForm from '@/views/StudentForm.vue'
+import TeacherForm from '@/views/TeacherForm.vue'
+import Role from '@/views/Role.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Form',
-    component: Form
+    name: 'Role',
+    component: Role
+  },
+  {
+    path: '/StudentForm',
+    name: 'StudentForm',
+    component: StudentForm
+  },
+  {
+    path: '/TeacherForm',
+    name: 'TeacherForm',
+    component: TeacherForm
   },
   {
     path: '/HomeView',

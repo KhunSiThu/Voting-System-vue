@@ -83,12 +83,14 @@
 
             </div>
 
+
             <!-- Contestants Grid for King -->
             <div id="filter_king"
                 class="grid mt-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12 p-4 max-w-8xl m-auto">
                 <!-- Candidate Card -->
                 <div v-for="candidate in filterCandidates" :key="candidate.id"
-                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700">
+                    class=" p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700"
+                    :class="(candidate.id === voteKingId ? 'bg-blue-100 dark:bg-blue-800' : (candidate.id === voteQueenId ? 'bg-pink-100 dark:bg-pink-800' : 'bg-white dark:bg-gray-800'))">
                     <div class="relative flex flex-col items-center ">
                         <div class="relative w-40 h-40 md:w-60 md:h-60 rounded-full overflow-hidden shadow-lg border-4"
                             :class="candidate.gender === 'male' ? 'border-blue-400' : 'border-pink-400'">
@@ -106,7 +108,7 @@
                     </div>
                     <h2 class="text-2xl font-bold text-blue-800 dark:text-white mt-4 mb-2">{{ candidate.name }}</h2>
                     <p class="font-bold text-gray-700 dark:text-gray-300">Major - {{ candidate.major }}</p>
-                    <button @click="openModal(candidate)"
+                    <button @click="openModal(candidate, voteKingId, voteQueenId)"
                         class="m-7 font-bold hover:text-white border rounded-lg py-2 px-3 transition" :class="[
                             candidate.gender === 'male'
                                 ? 'text-blue-400 hover:bg-blue-400 border-blue-400 bg-blue-50 dark:border-blue-500 dark:bg-transparent dark:hover:bg-blue-400'
@@ -121,7 +123,8 @@
 
             <!-- Confirm model Box -->
 
-            <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 bg-blur">
+            <div v-if="showModal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 bg-blur">
                 <div class="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full">
                     <!-- Close Button -->
                     <button @click="closeModal"
@@ -163,9 +166,10 @@
                         </ul>
                     </div>
 
+
                     <!-- Modal Actions -->
                     <div class="flex justify-center gap-4">
-                        <button @click="confirmVote"
+                        <button @click="confirmVote(selectedCandidate)"
                             class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition">
                             Confirm
                         </button>
@@ -207,6 +211,23 @@
                             Close
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <!-- CanNotVote Modal Box -->
+            <div v-if="showCanNotVoteModal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 bg-blur">
+
+                <div class="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full m-4">
+                    <button @click="closeCanNotVoteModal" class="absolute top-4 right-4 text-2xl text-gray-600"><i
+                            class="fas fa-times"></i></button>
+                    <div class="mb-10">
+                        <i class="fa-solid fa-triangle-exclamation fa-beat text-9xl" style="color: #ff3814;"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-red-500">Can't Vote</h2>
+                    <p class="mt-2">You have already voted for a King or Queen.</p>
+                    <button @click="closeCanNotVoteModal"
+                        class="bg-red-500 text-white py-2 px-6 rounded-full hover:bg-red-400 transition-all mt-4">Close</button>
                 </div>
             </div>
 
@@ -273,9 +294,21 @@ export default {
         // Modal Box 
         const showModal = ref(false);
         const selectedCandidate = ref(null);
-        const showSuccessModal = ref(false);  // New success modal reactive reference
+        const showSuccessModal = ref(false);
+        const showCanNotVoteModal = ref(false);
 
-        const openModal = (candidate) => {
+        let voteKingId = ref(localStorage.getItem('voteKingId'));
+        let voteQueenId = ref(localStorage.getItem('voteQueenId'));
+
+        let canNotVote = (candidate) => {
+            showCanNotVoteModal.value = true;
+        }
+
+        const openModal = (candidate, voteKingId, voteQueenId) => {
+            if (voteKingId && candidate.gender === 'male' || voteQueenId && candidate.gender === 'female') {
+                canNotVote(candidate);
+                return
+            }
             selectedCandidate.value = candidate;
             showModal.value = true;
         };
@@ -285,14 +318,27 @@ export default {
             selectedCandidate.value = null;
         };
 
-        const confirmVote = () => {
-            // alert(`You have voted for ${selectedCandidate.value.name}!`);
+        const confirmVote = (selectedCandidate) => {
+
             closeModal();
-            showSuccessModal.value = true;  // Show the success modal
+            showSuccessModal.value = true;
+
+            if (selectedCandidate.gender === "male") {
+                localStorage.setItem("voteKingId", selectedCandidate.id);
+                voteKingId.value = selectedCandidate.id;
+            } else {
+                localStorage.setItem("voteQueenId", selectedCandidate.id);
+                voteQueenId.value = selectedCandidate.id;
+            }
+
         };
 
         const closeSuccessModal = () => {
             showSuccessModal.value = false;  // Close the success modal
+        };
+
+        const closeCanNotVoteModal = () => {
+            showCanNotVoteModal.value = false;  // Close the success modal
         };
 
         return {
@@ -316,7 +362,12 @@ export default {
 
             // Success modal handling
             showSuccessModal,
-            closeSuccessModal
+            showCanNotVoteModal,
+            closeSuccessModal,
+            closeCanNotVoteModal,
+            voteKingId,
+            voteQueenId
+
         }
     }
 
@@ -324,6 +375,4 @@ export default {
 
 </script>
 
-<style>
-
-</style>
+<style></style>

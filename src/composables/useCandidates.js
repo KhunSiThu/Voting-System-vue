@@ -6,7 +6,7 @@ const useCandidates = () => {
 
     const load = async () => {
         try {
-            const response = await fetch("http://172.30.1.36:3000/candidates");
+            const response = await fetch("http://localhost:3000/candidates");
 
             if (response.status === 404) {
                 throw new Error("URL Not Found!");

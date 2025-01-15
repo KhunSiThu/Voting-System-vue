@@ -11,7 +11,7 @@ let deadLine = () => {
     let remainingMinutes = ref("");
     let remainingSeconds = ref("");
 
-    const data = "2025-01-15T10:00:00Z"; // Example date string
+    const data = "2025-01-19T10:00:00Z"; // Example date string
     const votingEndDate = new Date(data); // Convert the string to a Date object
 
 
