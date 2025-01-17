@@ -15,7 +15,7 @@
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Choose Your Major</h2>
 
                 <div class="mb-4">
-                    <p class="text-sm text-gray-600">Click a button to select your major:</p>
+                    <p class="text-sm text-gray-600">Click a button to select your major</p>
 
                     <!-- Major Buttons in a Row Layout -->
                     <div class="mt-4  flex flex-wrap justify-center gap-6">
@@ -72,7 +72,7 @@
 
                 <!-- Selected Major -->
                 <div v-if="selectedMajor" class="mt-4">
-                    <p class="text-sm text-gray-600">You selected: <strong>{{ selectedMajor }}</strong></p>
+                    
                     <button @click="clearSelection" class="mt-2 text-blue-600 text-sm hover:text-blue-700 transition-all duration-300">Clear Selection</button>
                 </div>
 
@@ -82,7 +82,7 @@
                 <!-- Next Button -->
                 <div class="mt-6">
                     <button 
-                        @click="nextPage" 
+                        @click="nextPage(selectMajor)" 
                         class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all duration-300"
                         :disabled="!selectedMajor || loading">
                         <span v-if="loading">Loading...</span>
@@ -107,28 +107,33 @@ export default {
 
         // Function to go back to the previous page
         const goBack = () => {
-            router.push("/"); // Adjust based on your routing logic
+            localStorage.removeItem("userMajor");
+            localStorage.removeItem("userYear");
+            router.back(); // Adjust based on your routing logic
         };
 
         // Function to select a major
         const selectMajor = (major) => {
+            localStorage.setItem("userMajor",major);
             selectedMajor.value = major;
             errorMessage.value = ''; // Clear any previous error
         };
 
         // Function to clear selected major
         const clearSelection = () => {
+            localStorage.removeItem("userMajor");
             selectedMajor.value = '';
         };
 
         // Function to proceed to the next page after major selection
-        const nextPage = async () => {
+        const nextPage = async (major) => {
             if (!selectedMajor.value) {
                 errorMessage.value = "Please select a major";
                 return;
             }
             loading.value = true;
             try {
+                
                 router.push("/StudentForm");
             } catch (error) {
                 errorMessage.value = "Something went wrong!";

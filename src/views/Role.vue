@@ -20,7 +20,7 @@
       <!-- Role Selection Buttons with Smooth Hover -->
       <div class="space-x-4">
         <router-link
-          :to="{ name: 'SelectMajor' }"
+          :to="{ name: 'SelectYear' }"
           class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
         >
           Student

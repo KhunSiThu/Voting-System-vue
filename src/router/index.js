@@ -11,6 +11,7 @@ import StudentForm from '@/views/StudentForm.vue'
 import TeacherForm from '@/views/TeacherForm.vue'
 import Role from '@/views/Role.vue'
 import SelectMajor from '@/views/SelectMajor.vue'
+import SelectYear from '@/views/SelectYear.vue'
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     path: '/SelectMajor',
     name: 'SelectMajor',
     component: SelectMajor
+  },
+  {
+    path: '/SelectYear',
+    name: 'SelectYear',
+    component: SelectYear
   },
   {
     path: '/TeacherForm',
