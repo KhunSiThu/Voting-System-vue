@@ -24,12 +24,12 @@
     <div class="h-full overflow-y-auto bg-gray-50 dark:bg-gray-800 ">
       <div class="flex items-center gap-4  px-2 py-5 border-b m-1">
 
-        <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" :src="userData.profile_image"
+        <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" :src="userProfile"
           alt="Bordered avatar">
 
         <div class="font-medium dark:text-white">
           <div>{{ userData.name }}</div>
-          <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400">{{ userData.email }}</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">ID : {{ userData.rollno }}</div>
         </div>
       </div>
 
@@ -115,6 +115,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
+
   setup() {
 
     let route = useRouter();
@@ -123,7 +124,12 @@ export default {
 
     let userId = localStorage.getItem("userId");
 
-    let { userData, error } = getUserById(userId);
+    let userData = JSON.parse(sessionStorage.getItem("userData"));
+    let userProfile = localStorage.getItem("userProfile");
+
+    if(!userData || !userId) {
+      route.push("/")
+    }
 
     // Toggle dark mode on and off
     const toggleDarkMode = () => {
@@ -136,11 +142,12 @@ export default {
     };
 
     let logout = () => {
-      localStorage.setItem("status", "logout");
+      localStorage.setItem("status", "Slogout");
+      sessionStorage.clear()
       route.push('/');
     }
 
-    return { userData, toggleDarkMode, logout };
+    return {  toggleDarkMode, logout,userData,userProfile};
   }
 };
 </script>

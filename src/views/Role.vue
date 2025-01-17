@@ -37,8 +37,52 @@
 </template>
 
 <script>
+import getStudentById from '@/composables/getStudentById';
+import { useRouter } from 'vue-router';
+
 export default {
   name: "RoleSelection",
+
+  setup() {
+    let router = useRouter();
+
+    let userId = localStorage.getItem("userId");
+    let status = localStorage.getItem("status");
+    let userProfile = localStorage.getItem("userProfile");
+    let userData = JSON.parse(sessionStorage.getItem("userData"));
+
+    let load = async (id) => {
+      let {userData,error1,load} = getStudentById(id);
+
+      await load();
+      sessionStorage.setItem("userData",JSON.stringify(userData.value))
+
+    }
+
+    if(status === 'Slogout') {
+      router.push("/StudentForm")
+    }
+
+    if(status === 'Tlogout') {
+      router.push("/TeacherForm")
+    }
+
+    if(!status && userId && !userProfile) {
+      router.push("/ProfileForm")
+    }
+
+    if(!status && userId && userProfile && userData) {
+      router.push("/HomeView")
+    }
+
+    if(!status && userId && userProfile) {
+      if(!userData) {
+        load(userId);
+        router.push("/HomeView")
+      }
+      
+    }
+  }
 };
 </script>
 

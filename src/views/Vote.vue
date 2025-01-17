@@ -257,7 +257,7 @@ export default {
 
         let userId = localStorage.getItem("userId");
 
-        let { userData } = getUserById(userId);
+        let userData = JSON.parse(sessionStorage.getItem("userData"));
 
         let select = ref("male");
         let king_queen = ref('KING');
@@ -277,7 +277,7 @@ export default {
 
         let filterCandidates = computed(() => {
             return candidates.value.filter((candidate) => {
-                return candidate.gender === select.value && candidate.major === userData.value.major
+                return candidate.gender === select.value && candidate.major === userData.major
             })
         });
 

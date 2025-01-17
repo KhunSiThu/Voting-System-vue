@@ -10,7 +10,7 @@ let getStudentById = (id) =>{
 
             let doc = await db.collection("students").doc(id).get();
             if(doc.data()) {
-                userData.value = {di:doc.id,...doc.data()};
+                userData.value = {id:doc.id,...doc.data()};
             }
             
         } catch (err) {

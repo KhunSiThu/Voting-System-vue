@@ -244,7 +244,9 @@ export default {
             try {
                 const userId = await addStudent();
                 if (userId) {
-                    localStorage.setItem("userId", userId);
+                    // localStorage.setItem("userId", userId);
+                    
+                    localStorage.removeItem("userProfile")
                     registeredUser.value = true;
                     isRegister.value = false;
                 }
@@ -269,9 +271,15 @@ export default {
 
             if (userData.value) {
                 if (userData.value.password === password.value) {
+                    
                     localStorage.setItem("userId", userData.value.rollno);
+
+                    localStorage.removeItem("status");
+
                     let userProfile = localStorage.getItem("userProfile");
+                    
                     if(userProfile) {
+                        sessionStorage.setItem("userData",JSON.stringify(userData.value));
                         router.push('/HomeView')
                     } else {
                         router.push('/ProfileForm');

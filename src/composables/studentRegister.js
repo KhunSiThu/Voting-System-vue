@@ -13,7 +13,6 @@ const studentRegister = (name, rollno, password, year, major) => {
             password,
             year,
             major,
-            status: "active",
             createdAt: new Date(), // Add a timestamp for record creation
         };
 
