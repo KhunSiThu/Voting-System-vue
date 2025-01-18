@@ -1,3 +1,6 @@
+
+
+
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Candidates from '../views/Candidates.vue'
@@ -20,67 +23,68 @@ const routes = [
     component: Role
   },
   {
-    path: '/student-form',
+    path: '/StudentForm',
     name: 'StudentForm',
     component: StudentForm
   },
   {
-    path: '/select-major',
+    path: '/SelectMajor',
     name: 'SelectMajor',
     component: SelectMajor
   },
   {
-    path: '/select-year',
+    path: '/SelectYear',
     name: 'SelectYear',
     component: SelectYear
   },
   {
-    path: '/teacher-form',
+    path: '/TeacherForm',
     name: 'TeacherForm',
     component: TeacherForm
   },
   {
-    path: '/home',
+    path: '/HomeView',
     name: 'HomeView',
     component: HomeView
   },
   {
-    path: '/candidates',
+    path: '/Candidates',
     name: 'Candidates',
     component: Candidates
   },
   {
-    path: '/vote',
+    path: '/Vote',
     name: 'Vote',
     component: Vote
   },
   {
-    path: '/results',
+    path: '/Results',
     name: 'Results',
     component: Results
   },
   {
-    path: '/policy',
+    path: '/Policy',
     name: 'Policy',
     component: Policy
   },
   {
-    path: '/contact',
+    path: '/Contact',
     name: 'Contact',
     component: Contact
   },
   {
-    path: '/verify',
+    path: '/Verify',
     name: 'Verify',
     component: Verify
   },
   {
-    path: '/profile-form',
+    path: '/ProfileForm',
     name: 'ProfileForm',
     component: ProfileForm
-  }
-]
+  },
 
+
+]
 const router = createRouter({
   history: createWebHistory(),
   routes
