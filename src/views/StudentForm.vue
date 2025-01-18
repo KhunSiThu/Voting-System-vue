@@ -279,7 +279,7 @@ export default {
                     let userProfile = localStorage.getItem("userProfile");
                     
                     if(userProfile) {
-                        sessionStorage.setItem("userData",JSON.stringify(userData.value));
+                        localStorage.setItem("userData",JSON.stringify(userData.value));
                         router.push('/HomeView')
                     } else {
                         router.push('/ProfileForm');

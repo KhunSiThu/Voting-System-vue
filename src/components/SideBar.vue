@@ -124,7 +124,7 @@ export default {
 
     let userId = localStorage.getItem("userId");
 
-    let userData = JSON.parse(sessionStorage.getItem("userData"));
+    let userData = JSON.parse(localStorage.getItem("userData"));
     let userProfile = localStorage.getItem("userProfile");
 
     if(!userData || !userId) {
@@ -143,7 +143,7 @@ export default {
 
     let logout = () => {
       localStorage.setItem("status", "Slogout");
-      sessionStorage.clear()
+      localStorage.removeItem("userData");
       route.push('/');
     }
 

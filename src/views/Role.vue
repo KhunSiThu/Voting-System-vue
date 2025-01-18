@@ -49,17 +49,17 @@ export default {
     let userId = localStorage.getItem("userId");
     let status = localStorage.getItem("status");
     let userProfile = localStorage.getItem("userProfile");
-    let userData = JSON.parse(sessionStorage.getItem("userData"));
+    let userData = JSON.parse(localStorage.getItem("userData"));
 
     let load = async (id) => {
       let {userData,error1,load} = getStudentById(id);
 
       await load();
-      sessionStorage.setItem("userData",JSON.stringify(userData.value))
+      localStorage.setItem("userData",JSON.stringify(userData.value));
 
     }
 
-    if(status === 'Slogout') {
+    if(status === 'Slogout' && userId) {
       router.push("/StudentForm")
     }
 
@@ -67,7 +67,7 @@ export default {
       router.push("/TeacherForm")
     }
 
-    if(!status && userId && !userProfile) {
+    if(!status && userId && !userProfile && userData) {
       router.push("/ProfileForm")
     }
 
@@ -75,13 +75,6 @@ export default {
       router.push("/HomeView")
     }
 
-    if(!status && userId && userProfile) {
-      if(!userData) {
-        load(userId);
-        router.push("/HomeView")
-      }
-      
-    }
   }
 };
 </script>

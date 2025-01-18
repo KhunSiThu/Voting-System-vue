@@ -124,7 +124,7 @@ export default {
                     profileImage: base64Image
                 }, { merge: true });
 
-                sessionStorage.setItem("userData",JSON.stringify(userData.value));
+                localStorage.setItem("userData",JSON.stringify(userData.value));
                 localStorage.setItem("userProfile", base64Image);
                 
                 router.push("/HomeView")

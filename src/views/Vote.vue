@@ -257,7 +257,7 @@ export default {
 
         let userId = localStorage.getItem("userId");
 
-        let userData = JSON.parse(sessionStorage.getItem("userData"));
+        let userData = JSON.parse(localStorage.getItem("userData"));
 
         let select = ref("male");
         let king_queen = ref('KING');
