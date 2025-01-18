@@ -20,71 +20,69 @@ const routes = [
     component: Role
   },
   {
-    path: '/StudentForm',
+    path: '/student-form',
     name: 'StudentForm',
     component: StudentForm
   },
   {
-    path: '/SelectMajor',
+    path: '/select-major',
     name: 'SelectMajor',
     component: SelectMajor
   },
   {
-    path: '/SelectYear',
+    path: '/select-year',
     name: 'SelectYear',
     component: SelectYear
   },
   {
-    path: '/TeacherForm',
+    path: '/teacher-form',
     name: 'TeacherForm',
     component: TeacherForm
   },
   {
-    path: '/HomeView',
+    path: '/home',
     name: 'HomeView',
     component: HomeView
   },
   {
-    path: '/Candidates',
+    path: '/candidates',
     name: 'Candidates',
     component: Candidates
   },
   {
-    path: '/Vote',
+    path: '/vote',
     name: 'Vote',
     component: Vote
   },
   {
-    path: '/Results',
+    path: '/results',
     name: 'Results',
     component: Results
   },
   {
-    path: '/Policy',
+    path: '/policy',
     name: 'Policy',
     component: Policy
   },
   {
-    path: '/Contact',
+    path: '/contact',
     name: 'Contact',
     component: Contact
   },
   {
-    path: '/Verify',
+    path: '/verify',
     name: 'Verify',
     component: Verify
   },
   {
-    path: '/ProfileForm',
+    path: '/profile-form',
     name: 'ProfileForm',
     component: ProfileForm
-  },
-
-
+  }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 
