@@ -274,12 +274,14 @@ export default {
                     
                     localStorage.setItem("userId", userData.value.rollno);
 
+                    localStorage.setItem("userData",JSON.stringify(userData.value));
+
                     localStorage.removeItem("status");
 
-                    let userProfile = localStorage.getItem("userProfile");
+                    // let userProfile = localStorage.getItem("userProfile");
                     
-                    if(userProfile) {
-                        localStorage.setItem("userData",JSON.stringify(userData.value));
+                    if(userData.value.profileImage) {
+                        localStorage.setItem("userProfile",userData.value.profileImage)
                         router.push('/HomeView')
                     } else {
                         router.push('/ProfileForm');

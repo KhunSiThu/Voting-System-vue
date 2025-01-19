@@ -9,7 +9,7 @@ let getAllCandidates = ()=>{
     let load = async () => {
       try {
 
-        let response = await db.collection("candidates").orderBy("created_at","desc").get();
+        let response = await db.collection("candidates").orderBy("number").get();
         candidates.value = response.docs.map((doc)=> {
           return {...doc.data()}
         })

@@ -11,12 +11,15 @@ let deadLine = () => {
     let remainingMinutes = ref("");
     let remainingSeconds = ref("");
 
-    const data = "2025-01-19T10:00:00Z"; // Example date string
-    const votingEndDate = new Date(data); // Convert the string to a Date object
+
 
 
     // Countdown function to update the timer
     const updateCountdown = () => {
+
+        // const data = "2025-01-19T10:00:00Z"; 
+        const data = localStorage.getItem("endDate");
+        const votingEndDate = new Date(data); // Convert the string to a Date object
 
         const now = new Date().getTime();
         const distance = votingEndDate - now;
@@ -41,10 +44,10 @@ let deadLine = () => {
 
         // Opposite progress calculation
         const totalDays = Math.ceil((votingEndDate - new Date(votingEndDate).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
-         remainingDays.value = (days / totalDays) * 100;
-         remainingHours.value = (hours / 24) * 100;
-         remainingMinutes.value = (minutes / 60) * 100;
-         remainingSeconds.value = (seconds / 60) * 100;
+        remainingDays.value = (days / totalDays) * 100;
+        remainingHours.value = (hours / 24) * 100;
+        remainingMinutes.value = (minutes / 60) * 100;
+        remainingSeconds.value = (seconds / 60) * 100;
 
         // Format the countdown values as strings with leading zeros if necessary
         dayString.value = days.toString().padStart(2, "0");

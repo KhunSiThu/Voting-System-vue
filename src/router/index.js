@@ -8,7 +8,7 @@ import Vote from '@/views/Vote.vue'
 import Results from '@/views/Results.vue'
 import Policy from '@/views/Policy.vue'
 import Contact from '@/views/Contact.vue'
-import Verify from '@/views/Verify.vue'
+
 import ProfileForm from '@/views/ProfileForm.vue'
 import StudentForm from '@/views/StudentForm.vue'
 import TeacherForm from '@/views/TeacherForm.vue'
@@ -72,11 +72,7 @@ const routes = [
     name: 'Contact',
     component: Contact
   },
-  {
-    path: '/Verify',
-    name: 'Verify',
-    component: Verify
-  },
+
   {
     path: '/ProfileForm',
     name: 'ProfileForm',
