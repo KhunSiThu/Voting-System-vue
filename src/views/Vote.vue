@@ -66,7 +66,7 @@
             <div class="mx-auto flex flex-col justify-start items-center md:block w-full sm:flex-row">
                 <!-- Filter Buttons -->
                 <div class="flex w-full  md:flex-row flex-col justify-between items-center mb-5">
-                    <div class="flex gap-12">
+                    <div class="flex gap-12 md:mx-0 mx-3">
                         <button @click="filterSelected('male')" class="flex justify-center w-40 items-center bg-blue-500 text-lg md:text-2xl font-bold text-white py-3 px-5 rounded hover:bg-blue-700 transition dark:bg-blue-700 dark:hover:bg-blue-600">
                             <i class="fas fa-crown text-white mr-2 md:mr-4 cursor-pointer" id="kingIcon"></i>
                             <span>King</span>

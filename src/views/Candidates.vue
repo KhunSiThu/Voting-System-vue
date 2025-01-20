@@ -61,12 +61,7 @@
                 <!-- Modal Header -->
                 <div class="text-center mb-6">
                     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Confirm Your Vote</h2>
-                    <p class="text-base text-gray-600 mt-2 dark:text-gray-400 prose text-justify">
-                        Thank you for making your choice! Please review the candidate's details below and
-                        confirm
-                        that you want to cast your vote for one King and one Queen. You can only choose one of
-                        each.
-                    </p>
+                   
 
                 </div>
 
@@ -190,7 +185,7 @@
         <div class="mx-auto flex flex-col justify-start items-center md:block w-full sm:flex-row">
             <!-- Filter Buttons -->
             <div class="flex w-full  md:flex-row flex-col justify-between items-center mb-5">
-                <div class="flex gap-12">
+                <div class="flex gap-12 md:mx-0 mx-3">
                     <button @click="filterSelected('male')" class="flex justify-center w-40 items-center bg-blue-500 text-lg md:text-2xl font-bold text-white py-3 px-5 rounded hover:bg-blue-700 transition dark:bg-blue-700 dark:hover:bg-blue-600">
                         <i class="fas fa-crown text-white mr-2 md:mr-4 cursor-pointer" id="kingIcon"></i>
                         <span>King</span>
