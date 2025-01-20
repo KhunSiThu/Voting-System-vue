@@ -121,13 +121,21 @@ export default {
       route.push('/');
     }
 
+    const dark = localStorage.getItem("dark");
+      if (dark) {
+        document.documentElement.classList.add('dark');
+      }
+   
+
     // Dark Mode Toggle
     const toggleDarkMode = () => {
-      isDarkMode.value = !isDarkMode.value;
-      if (isDarkMode.value) {
+      const dark = localStorage.getItem("dark");
+      if (!dark) {
         document.documentElement.classList.add('dark');
+        localStorage.setItem("dark",true);
       } else {
         document.documentElement.classList.remove('dark');
+        localStorage.removeItem("dark");
       }
     };
 
