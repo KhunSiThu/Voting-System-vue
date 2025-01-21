@@ -61,7 +61,6 @@
                 <!-- Modal Header -->
                 <div class="text-center mb-6">
                     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Confirm Your Vote</h2>
-                   
 
                 </div>
 
@@ -248,7 +247,7 @@
                 <div v-for="candidate in filterCandidates" :key="candidate.rollno" class=" p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700" :class="(candidate.rollno === voteWholeKing ? 'bg-blue-100 dark:bg-blue-800' : (candidate.rollno === voteWholeQueen ? 'bg-pink-100 dark:bg-pink-800' : 'bg-white dark:bg-gray-800'))">
                     <div class="relative flex flex-col items-center">
                         <div class="relative w-40 h-40 md:w-60 md:h-60 rounded-full overflow-hidden shadow-lg border-4" :class="candidate.gender === 'male' ? 'border-blue-500' : 'border-pink-400'">
-                            <img src="https://img.freepik.com/free-photo/confident-asian-woman-face-portrait-smiling_53876-144815.jpg?ga=GA1.1.518632610.1735269050&semt=ais_hybrid" alt="Candidate Name" class="w-full h-full object-cover">
+                            <img :src="candidate.profileImage" alt="Candidate Name" class="w-full h-full object-cover">
                         </div>
 
                         <div class="absolute left-0 -bottom-8 items-center text-sm">
@@ -296,6 +295,9 @@ import {
 } from "vue";
 import addVoter from '@/composables/addVoter';
 import checkVote from '@/composables/checkVote';
+import {
+    db
+} from '@/firebase/config';
 
 export default {
 
@@ -385,23 +387,28 @@ export default {
 
         const openModal = async (candidate) => {
             const voterId = userData.rollno;
-            const collectionName = candidate.gender === 'male' ? "vote-whole-king" : "vote-whole-queen";
-            clickId.value = candidate.rollno
+            const collectionName = candidate.gender === "male" ? "vote-whole-king" : "vote-whole-queen";
+            clickId.value = candidate.rollno;
+
             try {
-                const hasVoted = await checkVote(collectionName, voterId);
+                // Call the checkVote function and destructure the result
+                const {
+                    hasVoted,
+                    documentNames
+                } = await checkVote(collectionName, voterId);
 
                 if (hasVoted) {
-                    canNotVote(candidate);
-
+                    canNotVote(candidate); // Notify the user they can't vote
                 } else {
+                   
                     selectedCandidate.value = candidate;
                     showModal.value = true;
                 }
-
-                clickId.value = null
-
             } catch (error) {
                 console.error("Error opening modal:", error.message);
+            } finally {
+                // Ensure clickId is reset even if an error occurs
+                clickId.value = null;
             }
         };
 
@@ -421,18 +428,15 @@ export default {
             const result = await addVoter(collectionName, voteId, voterId);
 
             if (result.success) {
+                // Store the base64 image string in Firestore
+                await db.collection("students").doc(userId).set({
+                   [collectionName] : voteId
+                }, { merge: true });
+
                 console.log(result.message);
                 showSuccessModal.value = true;
                 closeModal();
                 clickId.value = null;
-                if (selectedCandidate.gender === "male") {
-                    voteWholeKing.value = selectedCandidate.rollno;
-                    localStorage.setItem("voteWholeKing", selectedCandidate.rollno);
-                } else {
-                    voteWholeQueen.value = selectedCandidate.rollno;
-                    localStorage.setItem("voteWholeQueen", selectedCandidate.rollno);
-                }
-
             } else {
                 console.error(`Failed to add voter: ${result.error}`);
             }
