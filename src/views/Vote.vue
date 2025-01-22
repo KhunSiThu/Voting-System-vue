@@ -1,6 +1,9 @@
 <template>
 
-    <div v-if="userData" class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
+<div v-if="userData">
+    <SideBar :userData="userData"></SideBar>
+
+    <div  class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
         <!-- Hero Section -->
         <section class="text-center relative bg-cover bg-center pb-10 mx-auto">
 
@@ -315,6 +318,9 @@
 
         </section>
     </div>
+</div>
+
+<Loading v-else></Loading>
 </template>
 
 <script>
@@ -333,7 +339,6 @@ import redirect from '@/composables/redirect';
 
 export default {
 
-    props: ['userData'],
 
     components: {
         SideBar
@@ -342,7 +347,7 @@ export default {
 
         let userId = localStorage.getItem("userId");
 
-        let userData = props.userData;
+        let userData = JSON.parse(localStorage.getItem("userData"))
 
         const searchValue = ref("");
         let select = ref("male");
@@ -495,7 +500,9 @@ export default {
             showCanNotVoteModal,
             closeSuccessModal,
             closeCanNotVoteModal,
-            clickId
+            clickId,
+
+            userData
         }
     }
 

@@ -2,15 +2,14 @@ import { db } from "@/firebase/config";
 import { ref, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
-const getStudentById = () => {
-  const userId = localStorage.getItem("userId");
+const getStudentById = (id) => {
   const router = useRouter();
 
   // If no userId is found, return default empty values
-  if (!userId) {
+  if (!id) {
     return {
       userData: ref(null),
-      error: ref("User ID not found"),
+      error: ref("User ID not provided"),
       load: () => {},
     };
   }
@@ -19,17 +18,14 @@ const getStudentById = () => {
   const error = ref("");
   let unsubscribe = null;
 
-  const load = async () => {
+  const load = () => {
     try {
-      unsubscribe = db.collection("students").doc(userId).onSnapshot(
+      unsubscribe = db.collection("students").doc(id).onSnapshot(
         (doc) => {
           if (doc.exists) {
             userData.value = { id: doc.id, ...doc.data() };
-            // if(userData.value.status === 'active') {
-            //   localStorage.setItem("userData",JSON.stringify(userData.value));
-            // } else {
-            //   localStorage.removeItem("userData")
-            // }
+            // Store the fetched user data in localStorage
+            localStorage.setItem("userData", JSON.stringify(userData.value));
           } else {
             error.value = "Student not found";
           }

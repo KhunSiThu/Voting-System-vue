@@ -72,7 +72,6 @@ export default {
     components: {
         Loading
     },
-    props:["userData"],
 
     setup(props) {
         const imageFile = ref(null);
@@ -81,16 +80,11 @@ export default {
         const clickSubmit = ref(false);
 
         
-        let router = useRouter();
+        const userId = localStorage.getItem("userId");
+        const router = useRouter();
 
-        let userId = localStorage.getItem("userId");
 
-        let {
-            userData,
-            error1,
-            load
-        } = getStudentById(userId);
-
+        let { userData, error, load } = getStudentById(userId);
         load()
 
         // Function to preview the image before upload
@@ -159,6 +153,7 @@ export default {
             handleSubmit,
             imageFile,
             clickSubmit,
+            userData
             
         };
     },

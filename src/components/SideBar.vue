@@ -116,8 +116,12 @@ import { useRouter } from "vue-router";
 import { db } from "@/firebase/config";
 
 export default {
-    props: ["userData"],
+    
+    props:['userData'],
     setup(props) {
+
+        const userId = localStorage.getItem("userId");
+
         const router = useRouter();
         const isDarkMode = ref(false);
         const showLogoutModal = ref(false);
@@ -163,7 +167,8 @@ export default {
             cancelLogout,
             confirmLogout,
             isDarkMode,
-            showLogoutModal,
+            showLogoutModal
+
         };
     },
 };

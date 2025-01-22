@@ -1,5 +1,8 @@
 <template>
-<div class="sm:ml-64  bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
+<div v-if="userData">
+    <SideBar :userData="userData"></SideBar>
+
+    <div class="sm:ml-64  bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
     <!-- Page Header -->
     <header class="bg-blue-700 text-white py-8 dark:bg-blue-800">
         <div class="container mx-auto text-center">
@@ -146,6 +149,7 @@
     </div>
 
 </div>
+</div>
 </template>
 
 <script>
@@ -154,14 +158,18 @@ import redirect from '@/composables/redirect';
 
 export default {
 
-    props: ['userData'],
-
     components: {
         SideBar
     },
 
-    setup(props) {
-        redirect(props.userData)
+    setup() {
+        let userId = localStorage.getItem("userId");
+
+        let userData = JSON.parse(localStorage.getItem("userData"));
+
+        return {
+            userData
+        }
     }
 
 }

@@ -165,6 +165,7 @@ export default {
 
         const router = useRouter();
 
+
         // Load all students
         const {
             students,
@@ -300,11 +301,14 @@ export default {
                 merge: true
             });
 
+            localStorage.setItem("userData",student)
+
             // Check and handle user profile image
             if (student.profileImage) {
-                // Store the base64 image string in Firestore
+                
                 router.push("/HomeView");
             } else {
+               
                 router.push("/ProfileForm");
             }
         };

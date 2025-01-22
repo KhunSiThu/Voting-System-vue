@@ -1,5 +1,8 @@
 <template>
 
+<div v-if="userData">
+  <SideBar :userData="userData"></SideBar>
+
 
   <div class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 p-5 md:p-32">
@@ -96,6 +99,7 @@
       </div>
     </section>
   </div>
+</div>
 
 </template>
 
@@ -108,6 +112,14 @@ export default {
   components: {
     SideBar
   },
+
+  setup() {
+    let userId = localStorage.getItem("userId");
+
+        let userData = JSON.parse(localStorage.getItem("userData"));
+
+        return {userData}
+  }
 
 }
 </script>
