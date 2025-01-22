@@ -18,8 +18,8 @@ const studentRegister = (name, rollno, password, year, major) => {
 
         try {
             // Use the set method with the provided ID
-            let res = await db.collection("students").doc(rollno).set(newStudent);
-            return rollno;
+            let res = await db.collection("students").add(newStudent);
+            return res.id;
         } catch (err) {
             error.value = err.message; // Set error message if an error occurs
             console.error("Error adding student:", err); // Log error for debugging

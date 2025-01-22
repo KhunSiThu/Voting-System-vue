@@ -1,4 +1,5 @@
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import getEndDate from "./getEndDate";
 
 let deadLine = () => {
 
@@ -11,11 +12,14 @@ let deadLine = () => {
     let remainingMinutes = ref("");
     let remainingSeconds = ref("");
 
+    getEndDate()
 
-
+    const endDate = ref(null);
 
     // Countdown function to update the timer
     const updateCountdown = () => {
+
+
 
         // const data = "2025-01-19T10:00:00Z"; 
         const data = localStorage.getItem("endDate");

@@ -3,15 +3,13 @@
     <div class="text-center">
       <!-- Logo Animation -->
       <div class="flex justify-center mb-10 md:mr-6 animate-logo-smooth">
-        <img
-          src="../Images/uni_logo.png"
-          alt="University Logo"
-          class="mr-3 w-40 sm:w-40 md:w-48 lg:w-56 border-2 border-blue-400 p-3 rounded"
-        />
+        <img src="../Images/uni_logo.png" alt="University Logo"
+          class="mr-3 w-40 sm:w-40 md:w-48 lg:w-56 border-2 border-blue-400 p-3 rounded" />
       </div>
 
       <!-- Title with Smooth Animation -->
-      <h2 class="text-3xl md:text-4xl font-extrabold text-gradient bg-clip-text text-transparent mb-6 animate-title-smooth">
+      <h2
+        class="text-3xl md:text-4xl font-extrabold text-gradient bg-clip-text text-transparent mb-6 animate-title-smooth">
         Technological University (Yamethin)
         <span class="block my-3 text-lg md:text-2xl animate-title-smooth">Voting System</span>
       </h2>
@@ -19,16 +17,12 @@
 
       <!-- Role Selection Buttons with Smooth Hover -->
       <div class="space-x-4">
-        <router-link
-          :to="{ name: 'SelectYear' }"
-          class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
-        >
+        <router-link :to="{ name: 'SelectYear' }"
+          class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105">
           Student
         </router-link>
-        <router-link
-          :to="{ name: 'TeacherForm' }"
-          class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
-        >
+        <router-link :to="{ name: 'TeacherForm' }"
+          class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105">
           Teacher
         </router-link>
       </div>
@@ -37,44 +31,19 @@
 </template>
 
 <script>
-import getStudentById from '@/composables/getStudentById';
+
+import redirect from '@/composables/redirect';
 import { useRouter } from 'vue-router';
 
 export default {
   name: "RoleSelection",
 
-  setup() {
+  props: ['userData'],
+
+  setup(props) {
     let router = useRouter();
 
-    let userId = localStorage.getItem("userId");
-    let status = localStorage.getItem("status");
-    let userProfile = localStorage.getItem("userProfile");
-    let userData = JSON.parse(localStorage.getItem("userData"));
-
-    let load = async (id) => {
-      let {userData,error1,load} = getStudentById(id);
-
-      await load();
-      localStorage.setItem("userData",JSON.stringify(userData.value));
-
-    }
-
-    if(status === 'Slogout' && userId) {
-      router.push("/StudentForm")
-    }
-
-    if(status === 'Tlogout') {
-      router.push("/TeacherForm")
-    }
-
-    if(!status && userId && !userProfile && userData) {
-      router.push("/ProfileForm")
-    }
-
-    if(!status && userId && userProfile && userData) {
-      router.push("/HomeView")
-    }
-
+   redirect(props.userData)
   }
 };
 </script>
@@ -93,6 +62,7 @@ export default {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -105,6 +75,7 @@ export default {
     opacity: 0;
     transform: translateY(15px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);

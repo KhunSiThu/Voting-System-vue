@@ -1,7 +1,5 @@
 <template>
-<SideBar></SideBar>
-
-<div class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
+<div v-if="userData" class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
     <!-- Hero Section -->
     <section class="text-center py-24 px-3">
         <div class="max-w-4xl mx-auto">
@@ -111,25 +109,25 @@
         </div>
     </section>
 </div>
-
-
 </template>
 
-  
-  
 <script>
 import SideBar from '@/components/SideBar.vue';
+import redirect from '@/composables/redirect';
 
 export default {
-  components: {
+    props: ['userData'],
+    components: {
         SideBar
     },
+    setup(props) {
+       
+    }
 }
 
 // Add any logic here if needed, for example for toggling dark mode
 </script>
-  
-  
+
 <style scoped>
 /* You can add custom dark mode styles here if necessary */
 </style>
