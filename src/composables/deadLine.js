@@ -1,5 +1,4 @@
 import { onMounted, ref } from "vue";
-import getEndDate from "./getEndDate";
 
 let deadLine = () => {
 
@@ -11,8 +10,6 @@ let deadLine = () => {
     let remainingHours = ref("");
     let remainingMinutes = ref("");
     let remainingSeconds = ref("");
-
-    getEndDate()
 
     const endDate = ref(null);
 

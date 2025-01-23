@@ -62,13 +62,13 @@
 
                     <!-- Modal Header -->
                     <div class="text-center mb-6">
-                        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Confirm Your Vote</h2>
+                        <h2 class="md:text-3xl text-xl font-extrabold text-gray-900 dark:text-white">Confirm Your Vote</h2>
 
                     </div>
 
                     <!-- Candidate Details -->
                     <div class="text-center mb-8">
-                        <div class="relative w-40 h-40 mx-auto md:w-60 md:h-60 rounded-full overflow-hidden shadow-lg border-4" :class="selectedCandidate.gender === 'male' ? 'border-blue-400' : 'border-pink-400'">
+                        <div class="relative w-32 h-32 mx-auto md:w-60 md:h-60 rounded-full overflow-hidden shadow-lg border-4" :class="selectedCandidate.gender === 'male' ? 'border-blue-400' : 'border-pink-400'">
                             <img :src="selectedCandidate.profileImage" alt="Candidate Name" class="w-full h-full object-cover">
                         </div>
                         <h3 class="text-2xl font-bold mt-4 text-gray-800 dark:text-white">
@@ -82,7 +82,7 @@
                     <!-- Voting Policy Section -->
                     <div class="bg-gray-100 dark:bg-gray-700 p-5 rounded-lg mb-8 shadow-md">
                         <h4 class="text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200">Voting Policy</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-2 prose text-justify">
+                        <ul class="list-disc list-inside md:text-sm text-xs text-gray-600 dark:text-gray-300 space-y-2 prose text-justify">
                             <li>Every student can vote for one King and one Queen. You may select one candidate for
                                 each
                                 role, regardless of your major.</li>

@@ -206,7 +206,7 @@
 
                     <!-- Modal Header -->
                     <div class="text-center mb-6">
-                        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Confirm Your Vote</h2>
+                        <h2 class="text-xl md:text-3xl font-extrabold text-gray-900 dark:text-white">Confirm Your Vote</h2>
                         <p class="text-base text-gray-600 mt-2 dark:text-gray-400">
                             Every vote matters. Make sure your choice is final!
                         </p>
@@ -214,7 +214,7 @@
 
                     <!-- Candidate Details -->
                     <div class="text-center mb-8">
-                        <div class="relative mx-auto w-40 h-40 md:w-60 md:h-60 rounded-full overflow-hidden shadow-lg border-4"
+                        <div class="relative mx-auto w-32 h-32 md:w-60 md:h-60 rounded-full overflow-hidden shadow-lg border-4"
                             :class="selectedCandidate.gender === 'male' ? 'border-blue-400' : 'border-pink-400'">
                             <img :src="selectedCandidate.profileImage" alt="Candidate Name"
                                 class="w-full h-full object-cover">
@@ -231,7 +231,7 @@
                     <div class="bg-gray-100 dark:bg-gray-700 p-5 rounded-lg mb-8 shadow-md">
                         <h4 class="text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200">Voting Policy</h4>
                         <ul
-                            class="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-2 prose text-justify">
+                            class="list-disc list-inside md:text-sm text-xs text-gray-600 dark:text-gray-300 space-y-2 prose text-justify">
                             <li>Each student can vote for one King and one Queen in their major.</li>
                             <li>Votes are restricted to candidates within your academic major.</li>
                             <li>Once confirmed, votes cannot be changed or revoked.</li>
