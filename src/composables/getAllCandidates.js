@@ -6,7 +6,7 @@ let getAllCandidates = ()=>{
     let candidates = ref([]);
     let error = ref("");
 
-    let load = async () => {
+    let loadCan = async () => {
       try {
 
         let response = await db.collection("candidates").orderBy("number").get();
@@ -19,7 +19,7 @@ let getAllCandidates = ()=>{
       }
     }
 
-    return {candidates,error,load};
+    return {candidates,error,loadCan};
 }
 
 export default getAllCandidates;

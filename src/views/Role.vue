@@ -14,7 +14,7 @@
         </h2>
         <p class="text-lg mb-8 animate-title-smooth">Select your role to proceed</p>
 
-        <!-- Role Selection Buttons with Smooth Hover -->
+        <!-- Role Selection Buttons -->
         <div class="space-x-4">
             <router-link :to="{ name: 'SelectYear' }" class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105">
                 Student
@@ -27,29 +27,27 @@
 </div>
 </template>
 
+  
+  
 <script>
-import getStudentById from '@/composables/getStudentById';
-import Loading from '../components/Loading'
-import redirect from '@/composables/redirect';
+import getStudentById from "@/composables/getStudentById";
+import Loading from "../components/Loading";
 import {
     useRouter
-} from 'vue-router';
+} from "vue-router";
 import {
     onMounted,
     ref
-} from 'vue';
+} from "vue";
 
 export default {
     components: {
-        Loading
+        Loading,
     },
     name: "RoleSelection",
 
-    props: ['userData'],
-
     setup() {
-
-        let router = useRouter();
+        const router = useRouter();
 
         // Get the userId from localStorage
         const userId = localStorage.getItem("userId");
@@ -64,7 +62,7 @@ export default {
         // Track loading state
         const isLoading = ref(true);
 
-        // Fetch the data on mount
+        // Fetch data and handle routing logic on component mount
         onMounted(async () => {
             if (!userId) {
                 console.warn("User ID not found in localStorage");
@@ -75,6 +73,7 @@ export default {
             try {
                 await load();
                 if (userData.value) {
+                    // Redirect based on the user's profile data
                     if (userData.value.status === "active" && userData.value.profileImage) {
                         router.push("/HomeView");
                     } else if (!userData.value.profileImage) {
@@ -82,6 +81,8 @@ export default {
                     } else if (userData.value.status === "out") {
                         router.push("/StudentForm");
                     }
+                } else {
+                    console.warn("User data is empty or null");
                 }
             } catch (err) {
                 console.error("Failed to load user data:", err);
@@ -97,7 +98,8 @@ export default {
     },
 };
 </script>
-
+  
+  
 <style scoped>
 /* Custom gradient for the title text */
 .text-gradient {

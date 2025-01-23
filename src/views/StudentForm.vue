@@ -301,7 +301,7 @@ export default {
                 merge: true
             });
 
-            localStorage.setItem("userData",student)
+            // localStorage.setItem("userData",JSON.stringify(student))
 
             // Check and handle user profile image
             if (student.profileImage) {

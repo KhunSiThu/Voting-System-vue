@@ -111,77 +111,56 @@
 </template>
 
 <script>
-import Loading from '../components/Loading'
-import SideBar from '../components/SideBar'
-import CountDown from '../components/CountDown'
-import {
-    onMounted,
-    onUnmounted,
-    ref
-} from 'vue';
-import redirect from '@/composables/redirect';
-import getStudentById from '@/composables/getStudentById';
-import {
-    useRouter
-} from 'vue-router';
+import Loading from '../components/Loading';
+import SideBar from '../components/SideBar';
+import CountDown from '../components/CountDown';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import getUserData from '@/composables/getUserData';
 
 export default {
-    name: 'HomeView',
+  name: 'HomeView',
 
+  components: {
+    Loading,
+    CountDown,
+    SideBar,
+  },
 
-    components: {
-        Loading,
-        CountDown,
-        SideBar
-    },
+  setup() {
+    const router = useRouter();
 
-    mounted() {
+    // State for user data and loading
+    const userId = localStorage.getItem("userId");
+    const { userData, error, load } = getUserData();
+    const isLoading = ref(true);
 
-    },
+    // Lifecycle hook to fetch user data
+    onMounted(async () => {
+      if (!userId) {
+        console.warn("User ID not found in localStorage");
+        router.push("/login"); // Redirect to login if user ID is missing
+        return;
+      }
 
-    setup() {
-        const router = useRouter();
+      try {
+        await load();
+      } catch (err) {
+        console.error("Failed to load user data:", err);
+      } finally {
+        isLoading.value = false;
+      }
+    });
 
-        // Get the userId from localStorage
-        const userId = localStorage.getItem("userId");
-
-        // Call the composable to fetch student data
-        const {
-            userData,
-            error,
-            load
-        } = getStudentById(userId);
-
-        // Track loading state
-        const isLoading = ref(true);
-
-        // Fetch the data on mount
-        onMounted(async () => {
-            if (!userId) {
-                console.warn("User ID not found in localStorage");
-                isLoading.value = false;
-                return;
-            }
-
-            try {
-                await load();
-                if(userData.value) {
-                    localStorage.setItem("userData",JSON.stringify(userData.value))
-                }
-            } catch (err) {
-                console.error("Failed to load user data:", err);
-            } finally {
-                isLoading.value = false;
-            }
-        });
-
-        return {
-            userData,
-            isLoading,
-        };
-    },
-}
+    return {
+      userData,
+      isLoading,
+      error,
+    };
+  },
+};
 </script>
+
 
 <style>
 #Hero {

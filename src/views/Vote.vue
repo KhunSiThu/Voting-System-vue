@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="userData">
+<div v-if="userData && filterCandidates">
     <SideBar :userData="userData"></SideBar>
 
     <div  class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
@@ -325,108 +325,101 @@
 
 <script>
 import SideBar from '@/components/SideBar.vue';
-import deadLine from '@/composables/deadLine';
+import { ref, computed, onMounted } from 'vue';
+import getUserData from '@/composables/getUserData';
 import getAllCandidates from '@/composables/getAllCandidates';
-import addVoter from '@/composables/addVoter';
-import {
-    onMounted,
-    computed,
-    ref
-} from 'vue';
 import checkVote from '@/composables/checkVote';
+import addVoter from '@/composables/addVoter';
+import deadLine from '@/composables/deadLine';
 import { db } from '@/firebase/config';
-import redirect from '@/composables/redirect';
 
 export default {
-
-
-    components: {
-        SideBar
-    },
-    setup(props) {
-
-        let userId = localStorage.getItem("userId");
-
-        let userData = JSON.parse(localStorage.getItem("userData"))
-
+    components: { SideBar },
+    setup() {
+        // State and references
+        const userId = localStorage.getItem("userId");
         const searchValue = ref("");
-        let select = ref("male");
-        let king_queen = ref('KING');
+        const select = ref("male");
+        const king_queen = ref("KING");
         const loading = ref(true);
-        const clickId = ref(null)
+        const clickId = ref(null);
 
-       
+        // User Data
+        const { userData, load: loadUserData } = getUserData();
+        const isLoading = ref(true);
 
-        const {
-            candidates,
-            error,
-            load
-        } = getAllCandidates()
+        // Candidates
+        const { candidates, error, loadCan } = getAllCandidates();
 
-        // Call the load function to fetch candidates
-        onMounted(async () => {
-            await load();
-            loading.value = false; // Set loading to false once data is loaded
-        });
+        // Deadline
+        const { dayString, hourString, minString, secString, updateCountdown } = deadLine();
 
-        const filterSelected = (sel) => {
-            select.value = sel;
-            king_queen.value = select.value === 'male' ? 'KING' : 'QUEEN';
-        };
-
-        let filterCandidates = computed(() => {
-            const search = searchValue.value.toLowerCase();
-            return candidates.value.filter((candidate) => {
-                const matchesSearch =
-                    candidate.name.toLowerCase().includes(search) ||
-                    candidate.number.toString().includes(search);
-                return candidate.gender === select.value && candidate.major === userData.major && matchesSearch
-            })
-        });
-
-        let {
-            dayString,
-            hourString,
-            minString,
-            secString,
-            updateCountdown
-        } = deadLine();
-
-        updateCountdown();
-
-        // Modal Box 
+        // Modal State
         const showModal = ref(false);
         const selectedCandidate = ref(null);
         const showSuccessModal = ref(false);
         const showCanNotVoteModal = ref(false);
 
-        let canNotVote = (candidate) => {
-            showCanNotVoteModal.value = true;
-        }
+        // Methods
+        const filterSelected = (sel) => {
+            select.value = sel;
+            king_queen.value = sel === "male" ? "KING" : "QUEEN";
+        };
+
+        const filterCandidates = computed(() => {
+            const search = searchValue.value.toLowerCase();
+            return candidates.value.filter(candidate => {
+                const matchesSearch =
+                    candidate.name.toLowerCase().includes(search) ||
+                    candidate.number.toString().includes(search);
+                return (
+                    candidate.gender === select.value &&
+                    candidate.major === userData.value.major &&
+                    matchesSearch
+                );
+            });
+        });
 
         const openModal = async (candidate) => {
-            const voterId = userData.rollno;
+            const voterId = userData.value.rollno;
             const collectionName = candidate.gender === "male" ? "voteMajorKing" : "voteMajorQueen";
-            clickId.value = candidate.rollno;
 
             try {
-                // Call the checkVote function and destructure the result
-                const {
-                    hasVoted,
-                    documentNames
-                } = await checkVote(collectionName, voterId);
+                const { hasVoted } = await checkVote(collectionName, voterId);
 
                 if (hasVoted) {
-                    canNotVote(candidate); // Notify the user they can't vote
+                    showCanNotVoteModal.value = true;
                 } else {
-
                     selectedCandidate.value = candidate;
                     showModal.value = true;
                 }
-            } catch (error) {
-                console.error("Error opening modal:", error.message);
+            } catch (err) {
+                console.error("Error checking vote:", err);
             } finally {
-                // Ensure clickId is reset even if an error occurs
+                clickId.value = null;
+            }
+        };
+
+        const confirmVote = async (selectedCandidate) => {
+            const voterId = userData.value.rollno;
+            const collectionName = selectedCandidate.gender === "male" ? "voteMajorKing" : "voteMajorQueen";
+
+            try {
+                const result = await addVoter(collectionName, selectedCandidate.rollno, voterId);
+
+                if (result.success) {
+                    await db.collection("students")
+                        .doc(userData.value.id)
+                        .set({ [collectionName]: selectedCandidate.rollno }, { merge: true });
+
+                    showSuccessModal.value = true;
+                    closeModal();
+                } else {
+                    console.error("Failed to confirm vote:", result.error);
+                }
+            } catch (err) {
+                console.error("Error confirming vote:", err);
+            } finally {
                 clickId.value = null;
             }
         };
@@ -436,58 +429,46 @@ export default {
             selectedCandidate.value = null;
         };
 
-        const confirmVote = async (selectedCandidate) => {
-            const voteId = selectedCandidate.rollno;
-            clickId.value = selectedCandidate.rollno
-
-            const voterId = userData.rollno; // The voter ID to be added
-
-            const collectionName = selectedCandidate.gender === "male" ? "voteMajorKing" : "voteMajorQueen";
-            const result = await addVoter(collectionName, voteId, voterId);
-
-            if (result.success) {
-                // Store the base64 image string in Firestore
-                await db.collection("students").doc(userData.id).set({
-                    [collectionName]: voteId
-                }, { merge: true });
-
-                console.log(result.message);
-                showSuccessModal.value = true;
-                closeModal();
-                clickId.value = null;
-            } else {
-                console.error(`Failed to add voter: ${result.error}`);
-            }
+        const resetFilters = () => {
+            searchValue.value = "";
         };
 
         const closeSuccessModal = () => {
-            showSuccessModal.value = false; // Close the success modal
+            showSuccessModal.value = false;
         };
 
         const closeCanNotVoteModal = () => {
-            showCanNotVoteModal.value = false; // Close the success modal
+            showCanNotVoteModal.value = false;
         };
 
-        const resetFilters = () => {
-            searchValue.value = '';
+        // Lifecycle Hooks
+        onMounted(async () => {
+            if (!userId) {
+                console.warn("User ID not found in localStorage");
+                isLoading.value = false;
+                return;
+            }
 
-        };
+            try {
+                await loadUserData();
+                await loadCan();
+                updateCountdown();
+            } catch (err) {
+                console.error("Initialization error:", err);
+            } finally {
+                isLoading.value = false;
+                loading.value = false;
+            }
+        });
 
         return {
-            dayString,
-            hourString,
-            minString,
-            secString,
-
-            filterCandidates,
-            error,
-            filterSelected,
             searchValue,
-            resetFilters,
-
             select,
             king_queen,
             loading,
+            filterCandidates,
+            filterSelected,
+            resetFilters,
 
             showModal,
             selectedCandidate,
@@ -495,18 +476,21 @@ export default {
             closeModal,
             confirmVote,
 
-            // Success modal handling
             showSuccessModal,
-            showCanNotVoteModal,
             closeSuccessModal,
+            showCanNotVoteModal,
             closeCanNotVoteModal,
-            clickId,
 
-            userData
-        }
+            dayString,
+            hourString,
+            minString,
+            secString,
+            userData,
+            isLoading
+        };
     }
-
-}
+};
 </script>
+
 
 <style></style>

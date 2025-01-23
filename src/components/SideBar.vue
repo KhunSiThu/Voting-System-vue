@@ -153,7 +153,8 @@ export default {
         // Confirm Logout
         const confirmLogout = async () => {
             showLogoutModal.value = false;
-            router.push("/StudentForm");
+            localStorage.removeItem("userData");
+            router.push("/");
             await db.collection("students").doc(props.userData.id).set(
                 { status: "out" },
                 { merge: true }

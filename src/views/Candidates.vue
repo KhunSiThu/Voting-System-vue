@@ -291,210 +291,190 @@
 </template>
 
 <script>
-import deadLine from '@/composables/deadLine';
-import Loading from '../components/Loading';
-import SideBar from '../components/SideBar'
+import deadLine from "@/composables/deadLine";
+import Loading from "../components/Loading";
+import SideBar from "../components/SideBar";
 import getAllCandidates from "@/composables/getAllCandidates";
-
-import {
-    computed,
-    onMounted,
-    ref
-} from "vue";
-import addVoter from '@/composables/addVoter';
-import checkVote from '@/composables/checkVote';
-import {
-    db
-} from '@/firebase/config';
-import redirect from '@/composables/redirect';
+import { computed, onMounted, ref } from "vue";
+import addVoter from "@/composables/addVoter";
+import checkVote from "@/composables/checkVote";
+import { db } from "@/firebase/config";
+import getUserData from "@/composables/getUserData";
 
 export default {
+  components: {
+    Loading,
+    SideBar,
+  },
+  setup() {
+    // State Variables
+    const searchValue = ref("");
+    const selectedMajor = ref("all");
+    const loading = ref(true);
+    const clickId = ref(null);
+    const select = ref("male");
+    const king_queen = ref("KING");
 
+    const showModal = ref(false);
+    const selectedCandidate = ref(null);
+    const showSuccessModal = ref(false);
+    const showCanNotVoteModal = ref(false);
 
-    components: {
-        Loading,
-        SideBar
-    },
+    const userId = localStorage.getItem("userId");
+    const isLoading = ref(true);
 
-    setup(props) {
+    // User Data
+    const { userData, load: loadUserData } = getUserData();
 
-        const searchValue = ref("");
-        const selectedMajor = ref("all"); // Currently selected major for filtering
-        const loading = ref(true);
-        const clickId = ref(null);
+    // Candidates
+    const { candidates, error, loadCan } = getAllCandidates();
 
-        let userId = localStorage.getItem("userId");
+    // Deadline
+    const { dayString, hourString, minString, secString, updateCountdown } = deadLine();
+    updateCountdown();
 
-        let userData = JSON.parse(localStorage.getItem("userData"))
+    // Functions
+    const filterSelected = (sel) => {
+      select.value = sel;
+      king_queen.value = sel === "male" ? "KING" : "QUEEN";
+    };
 
-        let select = ref("male");
-        let king_queen = ref('KING');
+    const filterCandidates = computed(() => {
+      const search = searchValue.value.toLowerCase();
+      return candidates.value.filter((candidate) => {
+        const matchesSearch =
+          candidate.name.toLowerCase().includes(search) ||
+          candidate.number.toString().includes(search);
+        const matchesMajor =
+          selectedMajor.value === "all" ||
+          candidate.major.toLowerCase() === selectedMajor.value.toLowerCase();
+        return matchesSearch && matchesMajor && candidate.gender === select.value;
+      });
+    });
 
-        const filterSelected = (sel) => {
-            select.value = sel;
-            king_queen.value = select.value === 'male' ? 'KING' : 'QUEEN';
-        };
+    const resetFilters = () => {
+      searchValue.value = "";
+      selectedMajor.value = "all";
+    };
 
-        let {
-            dayString,
-            hourString,
-            minString,
-            secString,
-            updateCountdown
-        } = deadLine();
+    const filterByMajor = (major) => {
+      selectedMajor.value = major;
+    };
 
-        updateCountdown();
+    const openModal = async (candidate) => {
+      const voterId = userData.value.rollno;
+      const collectionName = candidate.gender === "male" ? "voteWholeKing" : "voteWholeQueen";
 
-        const {
-            candidates,
-            error,
-            load
-        } = getAllCandidates()
+      clickId.value = candidate.rollno;
 
-        // Call the load function to fetch candidates
-        onMounted(async () => {
-            await load();
-            loading.value = false; // Set loading to false once data is loaded
-        });
+      try {
+        const { hasVoted } = await checkVote(collectionName, voterId);
 
-        // Computed property to filter candidates by name, number, and major
-        const filterCandidates = computed(() => {
-            const search = searchValue.value.toLowerCase();
-            return candidates.value.filter((candidate) => {
-                const matchesSearch =
-                    candidate.name.toLowerCase().includes(search) ||
-                    candidate.number.toString().includes(search);
-                const matchesMajor =
-                    selectedMajor.value === "all" ||
-                    candidate.major.toLowerCase() === selectedMajor.value.toLowerCase();
-                const King_Queen = candidate.gender === select.value;
-                return matchesSearch && matchesMajor && King_Queen;
-            });
-        });
-
-        const resetFilters = () => {
-            searchValue.value = '';
-            selectedMajor.value = 'all';
-        };
-
-        // Function to update the selected major for filtering
-        const filterByMajor = (major) => {
-            selectedMajor.value = major;
-        };
-
-        // Modal Box 
-        const showModal = ref(false);
-        const selectedCandidate = ref(null);
-        const showSuccessModal = ref(false);
-        const showCanNotVoteModal = ref(false);
-
-        let canNotVote = (candidate) => {
-
-            showCanNotVoteModal.value = true;
+        if (hasVoted) {
+          showCanNotVoteModal.value = true;
+        } else {
+          selectedCandidate.value = candidate;
+          showModal.value = true;
         }
+      } catch (error) {
+        console.error("Error checking vote:", error.message);
+      } finally {
+        clickId.value = null;
+      }
+    };
 
-        const openModal = async (candidate) => {
-            const voterId = userData.rollno;
-            const collectionName = candidate.gender === "male" ? "voteWholeKing" : "voteWholeQueen";
-            clickId.value = candidate.rollno;
+    const closeModal = () => {
+      showModal.value = false;
+      selectedCandidate.value = null;
+    };
 
-            try {
-                // Call the checkVote function and destructure the result
-                const {
-                    hasVoted,
-                    documentNames
-                } = await checkVote(collectionName, voterId);
+    const confirmVote = async (candidate) => {
+      const voteId = candidate.rollno;
+      const voterId = userData.value.rollno;
+      const collectionName = candidate.gender === "male" ? "voteWholeKing" : "voteWholeQueen";
 
-                if (hasVoted) {
-                    canNotVote(candidate); // Notify the user they can't vote
-                } else {
+      clickId.value = voteId;
 
-                    selectedCandidate.value = candidate;
-                    showModal.value = true;
-                }
-            } catch (error) {
-                console.error("Error opening modal:", error.message);
-            } finally {
-                // Ensure clickId is reset even if an error occurs
-                clickId.value = null;
-            }
-        };
+      try {
+        const result = await addVoter(collectionName, voteId, voterId);
 
-        const closeModal = () => {
-            showModal.value = false;
-            selectedCandidate.value = null;
-        };
+        if (result.success) {
+          await db
+            .collection("students")
+            .doc(userData.value.id)
+            .set({ [collectionName]: voteId }, { merge: true });
 
-        const confirmVote = async (selectedCandidate) => {
-            const voteId = selectedCandidate.rollno;
-            clickId.value = selectedCandidate.rollno
-            console.log(voteId, userData.rollno);
+          showSuccessModal.value = true;
+          closeModal();
+        } else {
+          console.error("Vote confirmation failed:", result.error);
+        }
+      } catch (err) {
+        console.error("Error confirming vote:", err);
+      } finally {
+        clickId.value = null;
+      }
+    };
 
-            const voterId = userData.rollno; // The voter ID to be added
+    const closeSuccessModal = () => {
+      showSuccessModal.value = false;
+    };
 
-            const collectionName = selectedCandidate.gender === "male" ? "voteWholeKing" : "voteWholeQueen";
-            const result = await addVoter(collectionName, voteId, voterId);
+    const closeCanNotVoteModal = () => {
+      showCanNotVoteModal.value = false;
+    };
 
-            if (result.success) {
-                // Store the base64 image string in Firestore
-                await db.collection("students").doc(userData.id).set({
-                    [collectionName]: voteId
-                }, {
-                    merge: true
-                });
+    // Lifecycle Hooks
+    onMounted(async () => {
+      if (!userId) {
+        console.warn("User ID not found in localStorage");
+        isLoading.value = false;
+        return;
+      }
 
-                console.log(result.message);
-                showSuccessModal.value = true;
-                closeModal();
-                clickId.value = null;
-            } else {
-                console.error(`Failed to add voter: ${result.error}`);
-            }
-        };
+      try {
+        await loadUserData();
+        await loadCan();
+      } catch (err) {
+        console.error("Error initializing data:", err);
+      } finally {
+        isLoading.value = false;
+        loading.value = false;
+      }
+    });
 
-        const closeSuccessModal = () => {
-            showSuccessModal.value = false; // Close the success modal
-        };
+    return {
+      dayString,
+      hourString,
+      minString,
+      secString,
 
-        const closeCanNotVoteModal = () => {
-            showCanNotVoteModal.value = false; // Close the success modal
-        };
-
-        return {
-            dayString,
-            hourString,
-            minString,
-            secString,
-
-            filterCandidates,
-            error,
-            searchValue,
-            filterByMajor,
-            loading,
-            resetFilters,
-            filterSelected,
-            select,
-            king_queen,
-
-            showModal,
-            selectedCandidate,
-            openModal,
-            closeModal,
-            confirmVote,
-
-            // Success modal handling
-            showSuccessModal,
-            showCanNotVoteModal,
-            closeSuccessModal,
-            closeCanNotVoteModal,
-            clickId,
-
-            userData
-
-        };
-    },
+      filterCandidates,
+      error,
+      searchValue,
+      filterByMajor,
+      resetFilters,
+      loading,
+      filterSelected,
+      select,
+      king_queen,
+      showModal,
+      selectedCandidate,
+      openModal,
+      closeModal,
+      confirmVote,
+      showSuccessModal,
+      closeSuccessModal,
+      showCanNotVoteModal,
+      closeCanNotVoteModal,
+      
+      clickId,
+      userData,
+    };
+  },
 };
 </script>
+
 
 <style>
 /* You can add additional styles for dark mode here if needed */
