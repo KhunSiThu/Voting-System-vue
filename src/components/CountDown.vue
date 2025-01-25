@@ -76,7 +76,6 @@
 
 <script>
 import deadLine from '@/composables/deadLine';
-import getEndDate from '@/composables/getEndDate';
 
 export default {
 
@@ -93,7 +92,6 @@ export default {
             remainingSeconds
         } = deadLine();
 
-        getEndDate()
 
         updateCountdown();
 

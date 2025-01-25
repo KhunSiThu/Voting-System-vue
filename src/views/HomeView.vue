@@ -117,6 +117,7 @@ import CountDown from '../components/CountDown';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import getUserData from '@/composables/getUserData';
+import getEndDate from '@/composables/getEndDate';
 
 export default {
   name: 'HomeView',
@@ -129,6 +130,8 @@ export default {
 
   setup() {
     const router = useRouter();
+
+     getEndDate();
 
     // State for user data and loading
     const userId = localStorage.getItem("userId");
@@ -144,6 +147,7 @@ export default {
       }
 
       try {
+        
         await load();
       } catch (err) {
         console.error("Failed to load user data:", err);
