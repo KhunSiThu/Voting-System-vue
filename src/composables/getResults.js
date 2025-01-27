@@ -1,29 +1,33 @@
+import { ref } from "vue";
 import { db } from "@/firebase/config";
 
-async function getResults(table) {
-    const collectionRef = db.collection(table);
-    const querySnapshot = await collectionRef.get();
+// Real-time `getResults` function
+const getResults = (year, callback) => {
+    const allResults = ref(null);
+    let obj = "wholeKing";
 
-    const results = [];
+    try {
+        const docRef = db.collection("results").doc(year.toString());
 
-    // Use a `for...of` loop to await the result of each candidate
-    for (const doc of querySnapshot.docs) {
-        const data = doc.data();
-        const voterCount = data.voter && Array.isArray(data.voter) ? data.voter.length : 0;
+        // Set up a real-time listener using `onSnapshot`
+        docRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                allResults.value = doc.data();
 
-        // Fetch candidate data from the 'candidates' collection using data.id
-        const candidateSnapshot = await db.collection("candidates").doc(doc.id).get();
-        const candidateData = candidateSnapshot.data();
-
-        // Combine candidate data with voter count and document ID
-        results.push({
-            documentId: doc.id,
-            ...candidateData,
-            voterCount, // Add voter count to the document's data
+                // Trigger the callback with the updated data, if provided
+                if (callback) {
+                    callback(doc.data());
+                }
+            } else {
+                console.log("No results found for the year:", year);
+                allResults.value = null;
+            }
         });
+    } catch (error) {
+        console.error("Error setting up real-time listener:", error);
     }
 
-    return results;
-}
+    return allResults; // Reactive reference to use in Vue components
+};
 
 export default getResults;
