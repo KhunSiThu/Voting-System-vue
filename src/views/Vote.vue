@@ -19,22 +19,6 @@
                     Help your favorite contestants shine by casting your vote today!
                 </p>
 
-                <!-- <div class="flex gap-3 md:gap-12 sm:gap-12 mt-10">
-                <div>
-                    <h2 class="font-bold text-2xl mb-5 dark:text-white">KING ?</h2>
-                    <div class="w-40 mb-4 h-30 overflow-hidden object-cover border-2 border-gray-300 rounded dark:border-gray-500">
-                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/question-mark-3d-icon-download-in-png-blend-fbx-gltf-file-formats--help-ask-user-interface-pack-icons-4652954.png?f=webp" alt="">
-                    </div>
-                </div>
-
-                <div>
-                    <h2 class="font-bold text-2xl mb-5 dark:text-white">QUEEN ?</h2>
-                    <div class="w-40 mb-4 h-30 overflow-hidden object-cover border-2 border-gray-300 rounded dark:border-gray-500">
-                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/question-mark-3d-icon-download-in-png-blend-fbx-gltf-file-formats--help-ask-user-interface-pack-icons-4652954.png?f=webp" alt="">
-                    </div>
-                </div>
-            </div> -->
-
                 <!-- Voting Timer -->
                 <div id="timer" class="space-y-2 relative md:absolute sm:absolute md:bottom-10 md:right-10">
                     <h1 class="text-lg opacity-50 dark:text-gray-300">Voting Ends In</h1>
@@ -96,11 +80,6 @@
                                 class="px-4 py-2 border border-gray-300 rounded-lg w-full max-w-md mx-auto text-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         </div>
                     </div>
-                    <!-- 
-        <div class="h3 flex justify-center items-center" :class="king_queen === 'KING' ? 'text-blue-400' : 'text-pink-400'">
-            <h3 class="text-xl md:text-4xl sm:text-4xl font-bold mr-5">Candidates For {{ king_queen }} </h3>
-            <i class="fas fa-crown cursor-pointer text-3xl" id="kingIcon"></i>
-        </div> -->
 
                 </div>
 

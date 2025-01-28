@@ -9,27 +9,25 @@ const getEndDate = (callback) => {
 
                     let date;
                     if (timestamp?.toDate) {
-                        // Firestore Timestamp
                         date = new Date(timestamp.toDate());
                     } else if (typeof timestamp === "string" || typeof timestamp === "number") {
-                        // String or UNIX timestamp
                         date = new Date(timestamp);
                     } else {
-                        console.error("Invalid timestamp format:", timestamp);
-                        if (callback) callback(null);
+                        console.error("Invalid timestamp format:", typeof timestamp, timestamp);
+                        if (callback) callback(null, new Error("Invalid timestamp format"));
                         return;
                     }
 
                     const isoDate = date.toISOString();
-                    console.log(isoDate);
-                    localStorage.setItem("endDate", isoDate);
+                    // console.log(isoDate);
+                    // localStorage.setItem("endDate", isoDate);
 
                     if (callback) {
-                        callback(isoDate); // Pass the ISO date to the callback
+                        callback(isoDate);
                     }
                 } else {
                     console.error("No such document!");
-                    if (callback) callback(null);
+                    if (callback) callback(null, new Error("Document does not exist"));
                 }
             },
             (error) => {
@@ -38,7 +36,7 @@ const getEndDate = (callback) => {
             }
         );
 
-        return unsubscribe; // Allow caller to unsubscribe
+        return unsubscribe;
     } catch (error) {
         console.error("Error initializing onSnapshot:", error);
         if (callback) callback(null, error);

@@ -1,6 +1,9 @@
 import { onMounted, ref } from "vue";
+import getEndDate from "./getEndDate";
 
 let deadLine = () => {
+
+    let endDate = ref(null);
 
     let dayString = ref("");
     let hourString = ref("");
@@ -11,30 +14,43 @@ let deadLine = () => {
     let remainingMinutes = ref("");
     let remainingSeconds = ref("");
 
-    const endDate = ref(null);
+    let votingEnd = ref(false);  
+    const isLoading = ref(true); 
+
+    // Fetch end date asynchronously
+    getEndDate((isoDate, error) => {
+        if (error) {
+            console.error("Error retrieving end date:", error);
+        } else if (isoDate) {
+            endDate.value = new Date(isoDate); // Store the end date as Date object
+            
+            isLoading.value = false;  // Mark as loaded
+        } else {
+            console.log("No end date found.");
+            isLoading.value = false;  // Mark as loaded even if there's no date
+        }
+    });
 
     // Countdown function to update the timer
     const updateCountdown = () => {
-
-
-
-        // const data = "2025-01-19T10:00:00Z"; 
-        const data = localStorage.getItem("endDate");
-        const votingEndDate = new Date(data); // Convert the string to a Date object
+        if (isLoading.value || !endDate.value) {
+            return;  // Don't run countdown if loading or no date
+        }
 
         const now = new Date().getTime();
-        const distance = votingEndDate - now;
-
-        const totalSecondsInDay = 24 * 60 * 60;
-        const totalSecondsInHour = 60 * 60;
-        const totalSecondsInMinute = 60;
+        const distance = 0
 
         // If countdown reaches zero, stop the timer
         if (distance <= 0) {
+            
+            votingEnd.value = true;
+
+            dayString.value = 0;
+            hourString.value = 0;
+            minString.value = 0;
+            secString.value = 0;
+
             clearInterval(interval);
-            // Call any modal or function to notify the user that the vote has ended
-            // openVoteEndModal();  // Uncomment this if it's defined elsewhere
-            // expiredEl.classList.remove("hidden");  // Uncomment this if the element exists in the DOM
             return;
         }
 
@@ -44,7 +60,7 @@ let deadLine = () => {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Opposite progress calculation
-        const totalDays = Math.ceil((votingEndDate - new Date(votingEndDate).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
+        const totalDays = Math.ceil((endDate.value - new Date(endDate.value).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
         remainingDays.value = (days / totalDays) * 100;
         remainingHours.value = (hours / 24) * 100;
         remainingMinutes.value = (minutes / 60) * 100;
@@ -60,6 +76,7 @@ let deadLine = () => {
     // Start the countdown timer
     const interval = setInterval(updateCountdown, 1000);
 
+    // Return the reactive values to the template
     return {
         dayString,
         hourString,
@@ -69,10 +86,10 @@ let deadLine = () => {
         remainingDays,
         remainingHours,
         remainingMinutes,
-        remainingSeconds
+        remainingSeconds,
+        isLoading,
+        votingEnd
     };
 }
 
 export default deadLine;
-
-
