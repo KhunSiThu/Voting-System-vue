@@ -4,36 +4,38 @@
 
     <div class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
 
-        <!-- Hero Section: Introduction -->
-        <section id="Hero" class="text-center py-20 relative bg-cover bg-center flex justify-center items-center dark:bg-black">
-            <div class="absolute inset-0 bg-gradient-to-r from-black to-black opacity-70"></div>
+        <div class="h-screen flex flex-col justify-between">
+            <!-- Hero Section: Introduction -->
+            <section id="Hero" class="text-center py-20 relative bg-cover bg-center flex justify-center items-center dark:bg-black h-1/2">
+                <div class="absolute inset-0 bg-gradient-to-r from-black to-black opacity-70"></div>
 
-            <div class="relative z-10 flex flex-col md:flex-row items-center justify-center home-main">
-                <div class="flex justify-center mb-5 md:mb-0 md:mr-6 uniLogoCon">
-                    <img src="../Images/uni_logo.png" alt="University Logo" class="mr-3 w-32 sm:w-40 md:w-48 lg:w-56" />
+                <div class="relative z-10 flex flex-col md:flex-row items-center justify-center home-main">
+                    <div class="flex justify-center mb-5 md:mb-0 md:mr-6 uniLogoCon">
+                        <img src="../Images/uni_logo.png" alt="University Logo" class="mr-3 w-32 sm:w-40 md:w-48 lg:w-56" />
+                    </div>
+
+                    <div class="flex justify-center flex-col items-center text-center px-4">
+                        <h1 class="text-3xl text-blue-400 sm:text-4xl md:text-5xl font-bold mb-4">
+                            <span class="text-blue-400 dark:text-blue-400 text-2xl sm:text-6xl md:text-7xl">
+                                King and Queen Selection
+                            </span>
+                            <span class="block mt-6 sm:my-6 md:my-4 text-lg sm:text-2xl md:text-3xl text-gray-100 dark:text-gray-300">
+                                Technological University (Yamethin)
+                            </span>
+                        </h1>
+                        <p class="text-sm md:text-center prose text-justify text-white sm:text-lg md:text-xl mb-2 opacity-70 dark:opacity-70">
+                            Choose your favorite candidates for the roles of King and Queen who represent the spirit of our university. Your vote matters and makes a difference!
+                        </p>
+                    </div>
                 </div>
+            </section>
 
-                <div class="flex justify-center flex-col items-center text-center px-4">
-                    <h1 class="text-3xl text-blue-400 sm:text-4xl md:text-5xl font-bold mb-4">
-                        <span class="text-blue-400 dark:text-blue-400 text-2xl sm:text-6xl md:text-7xl">
-                            King and Queen Selection
-                        </span>
-                        <span class="block mt-6 sm:my-6 md:my-4 text-lg sm:text-2xl md:text-3xl text-gray-100 dark:text-gray-300">
-                            Technological University (Yamethin)
-                        </span>
-                    </h1>
-                    <p class="text-sm md:text-center prose text-justify text-white sm:text-lg md:text-xl mb-2 opacity-70 dark:opacity-70">
-                        Choose your favorite candidates for the roles of King and Queen who represent the spirit of our university. Your vote matters and makes a difference!
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Countdown Timer Section: Time Left to Vote -->
-        <CountDown></CountDown>
+            <!-- Countdown Timer Section: Time Left to Vote -->
+            <CountDown></CountDown>
+        </div>
 
         <!-- University-Wide Voting Section -->
-        <section id="voteWhole" class="pt-10 text-center">
+        <section v-if="!votingEnd" id="voteWhole" class="pt-10 text-center">
             <div class="container mx-auto px-4 py-10 rounded ">
                 <h2 class="text-3xl md:text-4xl font-semibold text-blue-500 dark:text-blue-400 mb-6">
                     University-Wide Voting
@@ -61,16 +63,14 @@
 
                 <router-link :to="{name:'UniversityVote'}">
                     <button class="bg-blue-500 mt-10 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 transition ease-in-out">
-                    Vote Now
-                </button>
+                        Vote Now
+                    </button>
                 </router-link>
             </div>
         </section>
 
-        <hr>
-
-     <!-- Major-Specific Voting Section -->
-        <section id="voteWhole" class="pt-10 text-center">
+        <!-- Major-Specific Voting Section -->
+        <section v-if="!votingEnd" id="voteWhole" class="pt-10 text-center">
             <div class="container mx-auto px-4 py-10 rounded ">
                 <h2 class="text-3xl md:text-4xl font-semibold text-blue-500 dark:text-blue-400 mb-6">
                     Major-Specific Voting
@@ -98,12 +98,11 @@
 
                 <router-link :to="{name:'MajorVote'}">
                     <button class="bg-blue-500 mt-10 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 transition ease-in-out">
-                    Vote Now
-                </button>
+                        Vote Now
+                    </button>
                 </router-link>
             </div>
         </section>
-
 
     </div>
 </div>
@@ -124,6 +123,7 @@ import {
 } from 'vue-router';
 import getUserData from '@/composables/getUserData';
 import getEndDate from '@/composables/getEndDate';
+import deadLine from '@/composables/deadLine';
 
 export default {
     name: 'HomeView',
@@ -136,6 +136,21 @@ export default {
 
     setup() {
         const router = useRouter();
+
+        let {
+            dayString,
+            hourString,
+            minString,
+            secString,
+            updateCountdown,
+            remainingDays,
+            remainingHours,
+            remainingMinutes,
+            remainingSeconds,
+            votingEnd
+        } = deadLine();
+
+        updateCountdown();
 
         // State for user data and loading
         const userId = localStorage.getItem("userId");
@@ -168,6 +183,7 @@ export default {
             userData,
             isLoading,
             error,
+            votingEnd
         };
     },
 };

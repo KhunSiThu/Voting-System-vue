@@ -76,6 +76,49 @@
 
     </div>
 </div>
+
+<div v-if="showPolicyModal && !accept"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 bg-blur">
+        <div
+            class="relative bg-white dark:bg-gray-800 backdrop-blur-lg shadow-2xl rounded-2xl p-8 sm:p-12 w-full sm:w-3/4 lg:w-1/3 text-center border border-gray-300 dark:border-gray-700">
+
+            <!-- Title -->
+            <h1 class="text-3xl sm:text-4xl font-extrabold dark:text-white">
+                Voting Policy
+            </h1>
+
+            <p class="text-gray-500 dark:text-gray-300 text-sm sm:text-lg mt-4">
+                Please review and accept the rules before voting.
+            </p>
+
+            <div
+                class="mt-6 text-sm sm:text-base text-gray-700 dark:text-gray-300 text-left p-4 bg-gray-100 dark:bg-gray-700 rounded-lg max-h-60 overflow-y-auto">
+                <p>• One vote per person. Multiple votes are not allowed.</p>
+                <p>• Votes are final. Once submitted, they cannot be changed.</p>
+                <p>• Any attempt to cheat will result in disqualification.</p>
+                <p>• Voting is open to registered users only.</p>
+                <p>• The system records your vote anonymously for fairness.</p>
+                <p>• If any fraudulent activity is detected, your vote will be void.</p>
+                <p>• The voting results will be verified before the final announcement.</p>
+            </div>
+
+            <!-- Policy Page Link -->
+            <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                Read the full policy
+                <router-link to="/policy" class="text-blue-600 dark:text-blue-400 hover:underline">
+                    here
+                </router-link>.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex flex-col sm:flex-row justify-center gap-4">
+                <button @click="acceptPolicy"
+                    class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 w-full sm:w-auto">
+                    Accept
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -95,6 +138,8 @@ export default {
     setup() {
         const userId = localStorage.getItem("userId");
         const loading = ref(true);
+        const showPolicyModal = ref(true);
+        const accept = ref(localStorage.getItem("accept"));
 
         const {
             userData,
@@ -102,13 +147,18 @@ export default {
         } = getUserData();
         const isLoading = ref(true);
 
+        const acceptPolicy = () => {
+            localStorage.setItem("accept", true);
+            accept.value = true;
+        }
+
         // Deadline
         const {
             dayString,
             hourString,
             minString,
             secString,
-            updateCountdown
+            updateCountdown,
         } = deadLine();
 
         onMounted(async () => {
@@ -135,6 +185,10 @@ export default {
             hourString,
             minString,
             secString,
+
+            showPolicyModal,
+            acceptPolicy,
+            accept
         };
     }
 };

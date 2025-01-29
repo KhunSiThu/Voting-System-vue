@@ -14,7 +14,7 @@
                     Back
                 </button>
 
-                <div class="w-3/4 md:w-1/4 flex items-center space-x-3 text-base md:text-xl">
+                <div class="w-3/4 md:w-1/4 flex items-center space-x-3 text-sm opacity-30 md:text-xl">
                     <label for="searchInput">Search</label><input v-model="searchValue" id="searchInput" placeholder="Enter Name or Candidate Number" class="px-4 py-2 border w-full border-gray-300 rounded-lg max-w-md mx-auto text-xs md:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     </div>
 
                     <!-- Candidate Card -->
-                    <div v-for="candidate in filterCandidates" :key="candidate.rollno" class="p-3 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700" :class="(candidate.rollno === userData.voteMajorKing ? 'bg-blue-100 dark:bg-blue-800' : (candidate.rollno === userData.voteMajorQueen ? 'bg-pink-100 dark:bg-pink-800' : 'bg-white dark:bg-gray-800'))">
+                    <div v-for="candidate in filterCandidates" :key="candidate.rollno" class="p-3 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700" :class="(candidate.rollno === userData.voteMajorKing ? 'bg-blue' : (candidate.rollno === userData.voteMajorQueen ? 'bg-pink' : 'bg-white dark:bg-gray-800'))">
                         <div class="relative flex flex-col items-center">
                             <div class="relative w-full h-24 md:h-60 rounded overflow-hidden shadow-lg border" :class="candidate.gender === 'male' ? 'border-blue-500' : 'border-pink-400'">
                                 <img :src="candidate.profileImage" alt="Candidate Name" class="w-full h-full object-cover">
@@ -205,6 +205,53 @@
                 </div>
             </div>
 
+            <div v-if="showVotingEndModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 bg-blur">
+            <div class="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg shadow-2xl rounded-2xl p-10 sm:p-14 w-full sm:w-3/4 lg:w-1/2 text-center border border-gray-300 dark:border-gray-700">
+                <!-- Close Button -->
+                <button @click="showVotingEndModal = false" class="absolute top-4 right-4 bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 p-2 rounded-full hover:bg-red-500 hover:text-white transition-all duration-300">
+                    ✕
+                </button>
+
+                <!-- Title -->
+                <h1 class="text-3xl sm:text-5xl font-extrabold dark:text-white">
+                    🚫 Voting is Closed
+                </h1>
+
+                <p class="text-gray-500 dark:text-gray-300 text-sm sm:text-lg mt-4">
+                    Sorry, the voting period has ended. Thank you for your interest!
+                </p>
+
+                <p class="text-sm sm:text-lg text-gray-600 dark:text-gray-300 mt-4">
+                    Stay tuned for the final results.
+                </p>
+
+                <!-- View Results Buttons -->
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                    <router-link :to="{name:'Results'}">
+                        <button class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
+                            View Overall Results
+                        </button>
+                    </router-link>
+
+                    <router-link :to="{name:'Results'}">
+                        <button class="bg-purple-600 text-white px-8 py-3 rounded-xl font-semibold shadow-md hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
+                            View Results by Major
+                        </button>
+                    </router-link>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="mt-6">
+                    <p class="text-sm sm:text-base text-gray-500 dark:text-gray-300">
+                        Have questions?
+                        <router-link to="/contact">
+                            <span class="text-yellow-500 hover:text-yellow-600 font-semibold">Contact Us</span>
+                        </router-link>
+                    </p>
+                </div>
+            </div>
+        </div>
+
         </section>
     </div>
 </div>
@@ -246,6 +293,7 @@ export default {
         const king_queen = ref("KING");
         const loading = ref(true);
         const clickId = ref(null);
+        const showVotingEndModal = ref(false);
 
         let router = useRouter();
 
@@ -266,6 +314,17 @@ export default {
             error,
             loadCan
         } = getAllCandidates();
+
+        // Deadline
+        const {
+            dayString,
+            hourString,
+            minString,
+            secString,
+            updateCountdown,
+            votingEnd
+        } = deadLine();
+        updateCountdown();
 
         // Modal State
         const showModal = ref(false);
@@ -294,15 +353,19 @@ export default {
             const collectionName = candidate.gender === "male" ? "voteMajorKing" : "voteMajorQueen";
 
             try {
-                const {
-                    hasVoted
-                } = await checkVote(collectionName, voterId);
-
-                if (hasVoted) {
-                    showCanNotVoteModal.value = true;
+                if (votingEnd.value) {
+                    showVotingEndModal.value = true;
                 } else {
-                    selectedCandidate.value = candidate;
-                    showModal.value = true;
+                    const {
+                        hasVoted
+                    } = await checkVote(collectionName, voterId);
+
+                    if (hasVoted) {
+                        showCanNotVoteModal.value = true;
+                    } else {
+                        selectedCandidate.value = candidate;
+                        showModal.value = true;
+                    }
                 }
             } catch (err) {
                 console.error("Error checking vote:", err);
@@ -394,6 +457,7 @@ export default {
             closeSuccessModal,
             showCanNotVoteModal,
             closeCanNotVoteModal,
+            showVotingEndModal,
 
             userData,
             isLoading,
@@ -403,4 +467,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.bg-blue {
+    background-color: rgba(0, 0, 255, 0.084);
+}
+
+.bg-pink {
+    background-color: rgba(255, 192, 203, 0.265);
+}
+</style>
