@@ -15,6 +15,9 @@ import TeacherForm from '@/views/TeacherForm.vue'
 import Role from '@/views/Role.vue'
 import SelectMajor from '@/views/SelectMajor.vue'
 import SelectYear from '@/views/SelectYear.vue'
+import MajorVote from '@/views/MajorVote.vue'
+import UniversityVote from '@/views/UniversityVote.vue'
+
 
 const routes = [
   {
@@ -48,14 +51,27 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/Candidates',
+    path: '/Candidates/:id',
     name: 'Candidates',
-    component: Candidates
+    component: Candidates,
+    props: true
+
   },
   {
-    path: '/Vote',
+    path: '/UniversityVote',
+    name: 'UniversityVote',
+    component: UniversityVote
+  },
+  {
+    path: '/Vote/:id',
     name: 'Vote',
-    component: Vote
+    component: Vote,
+    props: true
+  },
+  {
+    path: '/MajorVote',
+    name: 'MajorVote',
+    component: MajorVote
   },
   {
     path: '/Results',

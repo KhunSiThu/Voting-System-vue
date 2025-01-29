@@ -3,17 +3,18 @@
     <SideBar :userData="userData"></SideBar>
 
     <div class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
-
         <!-- Hero Section -->
         <section class="p-5 bg-white dark:bg-gray-800 text-center">
-            <div class="md:w-60 w-40 mb-4 mx-auto overflow-hidden object-cover">
-                <img v-if="userData.major === 'Electronic Engineering'" src="@/Images/EC.png" alt="Electronic Engineering">
-                <img v-if="userData.major === 'Electrical Power Engineering'" src="@/Images/EP.png" alt="Electrical Power Engineering">
-                <img v-if="userData.major === 'Mechanical Engineering'" src="@/Images/CE.png" alt="Mechanical Engineering">
-                <img v-if="userData.major === 'Civil Engineering'" src="@/Images/ME.png" alt="Civil Engineering">
-            </div>
-            <h1 class="text-blue-500 text-xl sm:text-2xl md:text-4xl font-bold py-4">{{ userData.major }}</h1>
-            <p class="text-sm sm:text-sm md:text-lg mb-6 opacity-75">Choose the candidates who best represent your major and lead the way to success!</p>
+            <h1 class="text-xl sm:text-2xl md:text-4xl  font-bold text-blue-400 mb-4 sm:mb-6">
+                Meet the University King & Queen Candidates
+            </h1>
+            
+            <div class="grid grid-cols-4 sm:grid-cols-4 gap-4 justify-center items-center max-w-3xl mx-auto z-20">
+                    <img src="../Images/EC.png" class="w-32 sm:w-20 lg:w-32 h-auto" alt="EC">
+                    <img src="../Images/ME.png" class="w-32 sm:w-20 lg:w-32 h-auto" alt="ME">
+                    <img src="../Images/CE.png" class="w-32 sm:w-20 lg:w-32 h-auto" alt="CE">
+                    <img src="../Images/EP.png" class="w-32 sm:w-20 lg:w-32 h-auto" alt="EP">
+                </div>
         </section>
 
         <!-- Voting Timer -->
@@ -44,24 +45,26 @@
 
         <!-- Voting Section -->
         <section id="voteWhole" class="pt-10 text-center">
-            <h2 class="text-sm sm:text-lg md:text-2xl font-semibold mb-6">Vote for Your Major King and Queen</h2>
+            <h2 class="text-sm sm:text-lg md:text-2xl font-semibold mb-6">Vote for University King and Queen</h2>
             <div class="flex w-full md:w-1/2 mx-auto justify-around items-center md:space-x-8">
                 <!-- King Card -->
                 <div class="p-5 w-36 md:w-1/2 rounded-lg shadow-xl bg-white dark:bg-gray-800 dark:text-gray-200">
-                    <h3 class="text-sm sm:text-base md:text-lg text-blue-500 dark:text-blue-400 mb-4">Major King</h3>
+                    <h3 class="text-xs sm:text-base md:text-lg text-blue-500 dark:text-blue-400 mb-4">University King</h3>
                     <img src="https://cdn-icons-png.freepik.com/512/9321/9321521.png" alt="University King" class="w-32 sm:w-40 md:w-48 border border-blue-400 mx-auto rounded-full mb-6 shadow-md transition-all duration-300 hover:scale-110 bg-gray-50 dark:bg-gray-700" />
-                    <router-link :to="{ name: 'Vote', params: { id: 'male' } }" >
-                        <button class="md:w-32 w-20 text-xs sm:text-sm md:text-base font-bold hover:text-white border rounded-lg py-2 transition text-blue-400 hover:bg-blue-400 border-blue-400 bg-blue-50 dark:border-blue-500 dark:bg-transparent dark:hover:bg-blue-400">Vote King</button>
+                    <router-link :to="{ name: 'Candidates', params: { id: 'male' } }">
+                        <button class="md:w-32 w-20 text-xs sm:text-sm md:text-base font-bold hover:text-white border rounded-lg py-2 transition text-blue-400 hover:bg-blue-400 border-blue-400 bg-blue-50 dark:border-blue-500 dark:bg-transparent dark:hover:bg-blue-400">Vote
+                            King</button>
                     </router-link>
                 </div>
 
                 <!-- Queen Card -->
                 <div class="p-5 w-36 md:w-1/2 rounded-lg shadow-xl bg-white dark:bg-gray-800 dark:text-gray-200">
-                    <h3 class="text-sm sm:text-base md:text-lg text-pink-400 dark:text-pink-400 mb-4">Major Queen</h3>
+                    <h3 class="text-xs sm:text-base md:text-lg text-pink-400 dark:text-pink-400 mb-4">University Queen</h3>
                     <img src="https://cdn-icons-png.freepik.com/512/9321/9321521.png" alt="University Queen" class="w-32 sm:w-40 md:w-48 mx-auto border border-pink-400 rounded-full mb-6 shadow-md transition-all duration-300 hover:scale-110 bg-gray-50 dark:bg-gray-700" />
-                    <router-link :to="{ name: 'Vote', params: { id: 'female' } }" >
-                        <button class="md:w-32 w-20 text-xs sm:text-sm md:text-base font-bold hover:text-white border rounded-lg py-2 transition text-pink-400 hover:bg-pink-400 border-pink-400 bg-pink-50 dark:border-pink-500 dark:bg-transparent dark:hover:bg-pink-400">Vote Queen</button>
-                    </router-link >
+                    <router-link :to="{ name: 'Candidates', params: { id: 'female' } }">
+                        <button class="md:w-32 w-20 text-xs sm:text-sm md:text-base font-bold hover:text-white border rounded-lg py-2 transition text-pink-400 hover:bg-pink-400 border-pink-400 bg-pink-50 dark:border-pink-500 dark:bg-transparent dark:hover:bg-pink-400">Vote
+                            Queen</button>
+                    </router-link>
                 </div>
             </div>
         </section>
@@ -70,10 +73,9 @@
         <section class="mt-10 text-gray-700 dark:text-gray-300 py-6 rounded-lg">
             <h3 class="text-sm sm:text-lg md:text-xl font-semibold mb-4 text-center">Voting System Policy</h3>
             <p class="text-sm sm:text-sm md:text-base leading-6 md:mx-auto max-w-4xl prose text-justify mx-3">
-                To participate in the voting process, ensure that you are an active student enrolled in one of the participating majors. Each student is allowed one vote for the King and one vote for the Queen within their major. To vote, simply log in to your student portal, navigate to the "Vote Now" section, select your candidates, and click "Submit." Remember, your vote is final and cannot be changed once submitted. Please follow the voting rules: one vote per student, only vote within your major, and ensure your vote remains confidential. Violating these rules may result in disqualification.
+                Every student enrolled in the university is entitled to vote. One student, one vote policy applies, and each vote must represent a genuine and independent decision. Participate responsibly and let your voice be heard for a better university community!
             </p>
         </section>
-
     </div>
 </div>
 </template>

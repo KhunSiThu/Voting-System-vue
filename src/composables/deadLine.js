@@ -38,8 +38,7 @@ let deadLine = () => {
         }
 
         const now = new Date().getTime();
-        const distance = 0
-
+        const distance = endDate.value - now;
         // If countdown reaches zero, stop the timer
         if (distance <= 0) {
             

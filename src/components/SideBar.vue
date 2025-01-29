@@ -10,7 +10,7 @@
     </nav>
     
     <aside  
-        class="fixed top-0 left-0 z-40 w-full flex md:w-64 h-screen border-r  dark:border-gray-800 transition-transform duration-300 ease-in-out transform md:translate-x-0" 
+        class="fixed top-0 left-0 z-50 w-full flex md:w-64 h-screen border-r  dark:border-gray-800 transition-transform duration-300 ease-in-out transform md:translate-x-0" 
         :class="show ? 'translate-x-0' : '-translate-x-full'"
     >
         <div class="h-full w-2/3 md:w-full overflow-y-auto bg-gray-50 dark:bg-gray-800 ">
@@ -34,13 +34,13 @@
                     </router-link>
                 </li>
                 <li>
-                    <router-link :to="{ name: 'Vote' }" class="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <router-link :to="{ name: 'MajorVote' }" class="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-check-to-slot text-xl"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Vote for Major</span> <!-- Updated for clarity -->
                     </router-link>
                 </li>
                 <li>
-                    <router-link :to="{ name: 'Candidates' }" class="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <router-link :to="{ name: 'UniversityVote' }" class="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-users text-xl"></i>
     
                         <span class="flex-1 ms-3 whitespace-nowrap">Vote for Overall</span> <!-- Updated for clarity -->
