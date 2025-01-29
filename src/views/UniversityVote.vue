@@ -46,7 +46,7 @@
         <!-- Voting Section -->
         <section id="voteWhole" class="pt-10 text-center">
             <h2 class="text-sm sm:text-lg md:text-2xl font-semibold mb-6">Vote for University King and Queen</h2>
-            <div class="flex w-full md:w-1/2 mx-auto justify-around items-center md:space-x-8">
+            <div class="flex w-full md:w-1/2 mx-auto justify-evenly items-center md:space-x-8">
                 <!-- King Card -->
                 <div class="p-5 w-36 md:w-1/2 rounded-lg shadow-xl bg-white dark:bg-gray-800 dark:text-gray-200">
                     <h3 class="text-xs sm:text-base md:text-lg text-blue-500 dark:text-blue-400 mb-4">University King</h3>

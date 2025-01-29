@@ -14,7 +14,7 @@
                     Back
                 </button>
 
-                <div class="w-3/4 md:w-1/4 flex items-center space-x-3 text-base md:text-xl" >
+                <div class="w-3/4 md:w-1/4 flex items-center space-x-3 text-base md:text-xl">
                     <label for="searchInput">Search</label><input v-model="searchValue" id="searchInput" placeholder="Enter Name or Candidate Number" class="px-4 py-2 border w-full border-gray-300 rounded-lg max-w-md mx-auto text-xs md:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 </div>
             </div>
@@ -58,28 +58,28 @@
                 </div>
 
                 <!-- Contestants Grid for King -->
-                <div v-else id="filter_king" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12 p-4 border dark:border-gray-700 rounded-lg">
+                <div v-else id="filter_king" class="grid grid-cols-2 gap-3 md:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  p-4 border dark:border-gray-700 rounded-lg">
                     <div v-if="error">
                         <p class="text-red-500">{{ error }}</p>
                     </div>
 
                     <!-- Candidate Card -->
-                    <div v-for="candidate in filterCandidates" :key="candidate.rollno" class=" p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700" :class="(candidate.rollno === userData.voteMajorKing ? 'bg-blue-100 dark:bg-blue-800' : (candidate.rollno === userData.voteMajorQueen ? 'bg-pink-100 dark:bg-pink-800' : 'bg-white dark:bg-gray-800'))">
-                        <div class="relative flex flex-col items-center ">
-                            <div class="relative w-full h-60 rounded overflow-hidden shadow-lg border" :class="candidate.gender === 'male' ? 'border-blue-400' : 'border-pink-400'">
+                    <div v-for="candidate in filterCandidates" :key="candidate.rollno" class="p-3 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 border dark:border-gray-700" :class="(candidate.rollno === userData.voteMajorKing ? 'bg-blue-100 dark:bg-blue-800' : (candidate.rollno === userData.voteMajorQueen ? 'bg-pink-100 dark:bg-pink-800' : 'bg-white dark:bg-gray-800'))">
+                        <div class="relative flex flex-col items-center">
+                            <div class="relative w-full h-24 md:h-60 rounded overflow-hidden shadow-lg border" :class="candidate.gender === 'male' ? 'border-blue-500' : 'border-pink-400'">
                                 <img :src="candidate.profileImage" alt="Candidate Name" class="w-full h-full object-cover">
                             </div>
 
-                            <div class="absolute left-2 -bottom-6 md:-bottom-8 items-center text-sm">
-                                <span class="md:w-16 md:h-16 w-12 h-12  md:text-3xl text-xl font-bold text-white flex items-center justify-center rounded-full mr-3" :class="candidate.gender === 'male' ? 'bg-blue-400' : 'bg-pink-400'">
+                            <div class="absolute left-2 -bottom-3 md:-bottom-8 items-center text-sm">
+                                <span class="md:w-16 md:h-16 w-6 h-6  md:text-3xl text-xs font-bold text-white flex items-center justify-center rounded-full mr-3" :class="candidate.gender === 'male' ? 'bg-blue-500' : 'bg-pink-400'">
                                     {{ candidate.number }}
                                 </span>
                             </div>
                         </div>
-                        <h2 class="text-2xl font-bold text-blue-800 dark:text-white mt-4 mb-2">{{ candidate.name }}
+                        <h2 class="text-base md:text-2xl font-bold text-blue-800 dark:text-white mt-4 mb-2">{{ candidate.name }}
                         </h2>
-                        <p class="font-bold text-gray-700 dark:text-gray-300">Major - {{ candidate.major }}</p>
-                        <button @click="openModal(candidate)" class=" mt-7 w-28 font-bold hover:text-white border rounded-lg py-2 px-3 transition" :class="[
+                        <p class="text-xs md:text-xl text-gray-700 dark:text-gray-300">{{ candidate.major }} Major</p>
+                        <button @click="openModal(candidate)" class="mt-3 md:mt-7 w-16 md:w-28 text-xs md:text-lg font-bold hover:text-white border rounded-md md:py-2 py-1 transition" :class="[
                                     candidate.gender === 'male'
                                         ? 'text-blue-400 hover:bg-blue-400 border-blue-400 bg-blue-50 dark:border-blue-500 dark:bg-transparent dark:hover:bg-blue-400'
                                         : 'text-pink-400 hover:bg-pink-400 border-pink-400 bg-pink-50 dark:border-pink-500 dark:bg-transparent dark:hover:bg-pink-400'
@@ -234,7 +234,7 @@ import {
 
 export default {
     components: {
-    VoteSideBar,
+        VoteSideBar,
         SideBar
     },
     props: ["id"],

@@ -59,9 +59,11 @@
                     </div>
                 </div>
 
-                <button class="bg-blue-500 mt-10 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 transition ease-in-out">
+                <router-link :to="{name:'UniversityVote'}">
+                    <button class="bg-blue-500 mt-10 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 transition ease-in-out">
                     Vote Now
                 </button>
+                </router-link>
             </div>
         </section>
 
@@ -94,9 +96,11 @@
                     </div>
                 </div>
 
-                <button class="bg-blue-500 mt-10 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 transition ease-in-out">
+                <router-link :to="{name:'MajorVote'}">
+                    <button class="bg-blue-500 mt-10 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 transition ease-in-out">
                     Vote Now
                 </button>
+                </router-link>
             </div>
         </section>
 
