@@ -165,7 +165,6 @@ export default {
 
         const router = useRouter();
 
-
         // Load all students
         const {
             students,
@@ -203,56 +202,78 @@ export default {
 
         // **Register Student**
         const handleRegister = async () => {
-
+            // Clear all errors before validation
             clearErrors();
+
+            // Validate required fields
             if (!fullname.value || !rollNo.value || !password.value || !confirmPassword.value) {
                 errorMessage.value = "Please fill out all fields.";
                 return;
             }
 
-            if (!checkRollNo(userYear, userMajor, rollNo.value)) {
+            // Prevent duplicate submissions
+            if (clickSubmit.value) return;
+            clickSubmit.value = true;
+
+            // Validate roll number format
+            const isRollNoValid = await checkRollNo(userYear, userMajor, rollNo.value);
+            if (!isRollNoValid) {
                 rollError.value = "Invalid Roll Number Format!";
+                clickSubmit.value = false;
                 return;
             }
 
+            // Validate password strength
             const passwordError = validatePassword(password.value);
             if (passwordError) {
                 passwordErrors.value = passwordError;
+                clickSubmit.value = false;
                 return;
             }
 
+            // Check if passwords match
             if (password.value !== confirmPassword.value) {
                 matchError.value = "Passwords do not match.";
+                clickSubmit.value = false;
                 return;
             }
 
-            clickSubmit.value = true;
-            await load()
+            // Show loading state
+            await load();
 
-            // Validate student credentials
+            // Check if roll number already exists
             const student = students.value.find((s) => s.rollno === rollNo.value);
-
             if (student) {
                 clickSubmit.value = false;
                 rollError.value = "Roll Number already exists.";
                 return;
             }
 
+            // Register the student
             const {
                 addStudent
-            } = studentRegister(fullname.value, rollNo.value, password.value, userYear, userMajor);
+            } = studentRegister(
+                fullname.value,
+                rollNo.value,
+                password.value,
+                userYear,
+                userMajor
+            );
+
             try {
                 const userId = await addStudent();
                 if (userId) {
-                    // localStorage.setItem("userId", userId);
 
-                    localStorage.removeItem("userProfile")
+                    localStorage.removeItem("userProfile");
+
                     registeredUser.value = true;
                     isRegister.value = false;
                 }
-            } catch {
-                errorMessage.value = "Registration failed. Try again.";
+            } catch (error) {
+                console.error("Registration failed:", error);
+                errorMessage.value = "Registration failed. Please try again.";
             } finally {
+                // Reset loading state
                 clickSubmit.value = false;
             }
         };
@@ -305,10 +326,10 @@ export default {
 
             // Check and handle user profile image
             if (student.profileImage) {
-                
+
                 router.push("/HomeView");
             } else {
-               
+
                 router.push("/ProfileForm");
             }
         };

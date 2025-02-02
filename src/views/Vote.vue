@@ -1,5 +1,5 @@
 <template>
-<div v-if="userData && filterCandidates">
+<div v-if="userData">
     <VoteSideBar :userData="userData"></VoteSideBar>
 
     <div class="sm:ml-64 relative bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
@@ -260,6 +260,8 @@
 </template>
 
 <script>
+
+import Loading from '../components/Loading'
 import VoteSideBar from '../components/VoteSideBar'
 import SideBar from '@/components/SideBar.vue';
 import {
@@ -279,8 +281,11 @@ import {
     useRouter
 } from 'vue-router';
 
+
+
 export default {
     components: {
+    Loading,
         VoteSideBar,
         SideBar
     },
@@ -428,8 +433,9 @@ export default {
             }
 
             try {
-                await loadUserData();
+                
                 await loadCan();
+                await loadUserData();
                 updateCountdown();
             } catch (err) {
                 console.error("Initialization error:", err);
