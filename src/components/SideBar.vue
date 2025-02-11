@@ -10,7 +10,7 @@
     </nav>
     
     <aside  
-        class="fixed top-0 left-0 z-50 w-full flex md:w-64 h-screen border-r  dark:border-gray-800 transition-transform duration-300 ease-in-out transform md:translate-x-0" 
+        class="fixed border-e border-gray-200 top-0 left-0 z-50 w-full flex md:w-64 h-screen border-r  dark:border-gray-900 transition-transform duration-300 ease-in-out transform md:translate-x-0" 
         :class="show ? 'translate-x-0' : '-translate-x-full'"
     >
         <div class="h-full w-2/3 md:w-full overflow-y-auto bg-gray-50 dark:bg-gray-800 ">

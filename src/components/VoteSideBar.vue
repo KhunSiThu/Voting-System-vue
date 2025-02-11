@@ -1,7 +1,7 @@
 <template>
 
 
-<aside class="fixed top-0 left-0 z-50 w-full flex md:w-64 h-screen border-r  dark:border-gray-800 transition-transform duration-300 ease-in-out transform md:translate-x-0" :class="show ? 'translate-x-0' : '-translate-x-full'">
+<aside class="fixed top-0 left-0 border-e border-gray-200 z-50 w-full flex md:w-64 h-screen border-r  dark:border-gray-800 transition-transform duration-300 ease-in-out transform md:translate-x-0" :class="show ? 'translate-x-0' : '-translate-x-full'">
     <div class="h-full w-2/3 md:w-full overflow-y-auto bg-gray-50 dark:bg-gray-800 ">
         <div class="flex items-center gap-4  px-2 py-5 border-b m-1">
 

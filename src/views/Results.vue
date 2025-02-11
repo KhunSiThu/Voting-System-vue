@@ -3,7 +3,7 @@
         <SideBar :userData="userData"></SideBar>
         <div v-if="userData" class="sm:ml-64 bg-gray-100 text-gray-900 rounded-lg dark:bg-gray-900 dark:text-gray-200">
             <!-- Hero Section -->
-            <section class="text-center px-3">
+            <section class="text-center p-10">
                 <div class="max-w-4xl mx-auto">
                     <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-6 tracking-tight text-blue-500 dark:text-blue-400">
                         King & Queen Election Results
