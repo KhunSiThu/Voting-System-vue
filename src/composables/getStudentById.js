@@ -2,6 +2,11 @@ import { db } from "@/firebase/config";
 import { ref } from "vue";
 
 const getStudentById = (id) => {
+
+  const role = localStorage.getItem("role");
+
+  let table = role ? "teachers" : "students";
+
   // If no userId is provided, return default values
   if (!id) {
     return {
@@ -19,7 +24,7 @@ const getStudentById = (id) => {
   const load = async () => {
     try {
       // Fetch the student data from Firestore
-      const doc = await db.collection("students").doc(id).get();
+      const doc = await db.collection(table).doc(id).get();
       if (doc.exists) {
         userData.value = { id: doc.id, ...doc.data() };
       } else {

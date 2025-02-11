@@ -52,6 +52,8 @@ export default {
         // Get the userId from localStorage
         const userId = localStorage.getItem("userId");
 
+        const role = localStorage.getItem("role");
+
         // Call the composable to fetch student data
         const {
             userData,
@@ -71,14 +73,26 @@ export default {
             }
 
             try {
+                
                 await load();
+
                 if (userData.value) {
                     // Redirect based on the user's profile data
                     if (userData.value.status === "active" && userData.value.profileImage) {
                         router.push("/HomeView");
                     } else if (!userData.value.profileImage) {
+                        if(role) {
+                            router.push("/TeacherProfileForm");
+                            return
+                        }
                         router.push("/ProfileForm");
                     } else if (userData.value.status === "out") {
+
+                        if(role) {
+                            router.push("/TeacherForm");
+                            return
+                        }
+
                         router.push("/StudentForm");
                     }
                 } else {

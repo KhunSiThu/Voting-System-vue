@@ -171,7 +171,7 @@ export default {
             try {
                 await db.collection("teacherID").doc(teacherExists.id).update({ user: true });
                 await db.collection("teachers").add({
-                    fullname: fullname.value,
+                    name: fullname.value,
                     password: password.value, // Change this to hashed password for better security
                     teacherId: teacherId.value,
                 });

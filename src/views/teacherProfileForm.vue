@@ -37,7 +37,7 @@
 
                     <!-- Displaying User's Name -->
                     <div class="mb-6 text-center">
-                        <p class="text-lg font-medium text-gray-700">{{ userData.fullname }}</p>
+                        <p class="text-lg font-medium text-gray-700">{{ userData.name }}</p>
                     </div>
 
                     <!-- Upload Button (Disabled if no image) -->
