@@ -7,6 +7,9 @@ const getUserData = () => {
 
   // Get the userId from localStorage
   const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
+
+  let table = role ? "teachers" : "students";
 
   // If no userId is found, return default empty values
   if (!userId) {
@@ -23,7 +26,7 @@ const getUserData = () => {
 
   const load = () => {
     try {
-      unsubscribe = db.collection("students").doc(userId).onSnapshot(
+      unsubscribe = db.collection(table).doc(userId).onSnapshot(
         (doc) => {
           if (doc.exists) {
             userData.value = { id: doc.id, ...doc.data() };

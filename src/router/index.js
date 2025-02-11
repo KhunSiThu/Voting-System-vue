@@ -17,6 +17,7 @@ import SelectMajor from '@/views/SelectMajor.vue'
 import SelectYear from '@/views/SelectYear.vue'
 import MajorVote from '@/views/MajorVote.vue'
 import UniversityVote from '@/views/UniversityVote.vue'
+import TeacherProfileForm from '@/views/teacherProfileForm.vue'
 
 
 const routes = [
@@ -93,6 +94,13 @@ const routes = [
     path: '/ProfileForm',
     name: 'ProfileForm',
     component: ProfileForm
+  },
+
+
+  {
+    path: '/TeacherProfileForm',
+    name: 'TeacherProfileForm',
+    component: TeacherProfileForm
   },
 
 

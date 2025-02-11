@@ -154,6 +154,7 @@ export default {
 
         // State for user data and loading
         const userId = localStorage.getItem("userId");
+
         const {
             userData,
             error,

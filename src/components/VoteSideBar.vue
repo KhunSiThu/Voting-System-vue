@@ -10,7 +10,7 @@
             <div class="font-medium dark:text-white">
                 <div>{{ userData.name }}</div>
                 <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400">{{ userData.email }}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">ID : {{ userData.rollno }}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">ID : {{ userData.rollno || userData.teacherId }}</div>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
                     <span class="ms-3">Dashboard</span> <!-- Updated for better clarity -->
                 </router-link>
             </li>
-            <li>
+            <li v-if="!userData.teacherId">
                 <router-link :to="{ name: 'MajorVote' }" class="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <i class="fa-solid fa-check-to-slot text-xl"></i>
                     <span class="flex-1 ms-3 whitespace-nowrap">Vote for Major</span> <!-- Updated for clarity -->

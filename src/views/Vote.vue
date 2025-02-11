@@ -354,7 +354,7 @@ export default {
         });
 
         const openModal = async (candidate) => {
-            const voterId = userData.value.rollno;
+            const voterId = userData.value.id;
             const collectionName = candidate.gender === "male" ? "voteMajorKing" : "voteMajorQueen";
 
             try {
@@ -380,7 +380,7 @@ export default {
         };
 
         const confirmVote = async (selectedCandidate) => {
-            const voterId = userData.value.rollno;
+            const voterId = userData.value.id;
             const collectionName = selectedCandidate.gender === "male" ? "voteMajorKing" : "voteMajorQueen";
 
             try {
