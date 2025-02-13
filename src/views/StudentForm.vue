@@ -165,13 +165,6 @@ export default {
 
         const router = useRouter();
 
-        // Load all students
-        const {
-            students,
-            error1,
-            load
-        } = getAllStudents();
-
         // **Helper Functions**
         const togglePasswordVisibility = (type) => {
             if (type === "password") passwordVisible.value = !passwordVisible.value;
@@ -238,12 +231,12 @@ export default {
                 return;
             }
 
-            // Show loading state
-            await load();
+            const studentSnapshot = await db.collection("students")
+                    .where("rollno", "==", rollNo.value)
+                    .limit(1) // Optimize query
+                    .get();
 
-            // Check if roll number already exists
-            const student = students.value.find((s) => s.rollno === rollNo.value);
-            if (student) {
+            if (!studentSnapshot.empty) {
                 clickSubmit.value = false;
                 rollError.value = "Roll Number already exists.";
                 return;
@@ -289,22 +282,19 @@ export default {
             }
 
             clickSubmit.value = true;
-            await load()
-            // Check for errors in fetching data
-            if (error1.value) {
-                errorMessage.value = "An error occurred while fetching student data.";
-                clickSubmit.value = false;
-                return;
-            }
 
-            // Validate student credentials
-            const student = students.value.find((s) => s.rollno === rollNo.value);
+            const studentSnapshot = await db.collection("students")
+                    .where("rollno", "==", rollNo.value)
+                    .limit(1) // Optimize query
+                    .get();
 
-            if (!student) {
+            if (studentSnapshot.empty) {
                 clickSubmit.value = false;
                 rollError.value = "Your account was not found!";
                 return;
             }
+
+            const student = studentSnapshot.docs[0].data();
 
             if (student.password !== password.value) {
                 clickSubmit.value = false;
@@ -313,18 +303,15 @@ export default {
             }
 
             // Successful login: store user data in localStorage
-            localStorage.setItem("userId", student.id);
+            localStorage.setItem("userId", studentSnapshot.docs[0].id);
 
-            await db.collection("students").doc(student.id).set({
+            await db.collection("students").doc(studentSnapshot.docs[0].id).set({
 
                 status: "active"
             }, {
                 merge: true
             });
 
-            // localStorage.setItem("userData",JSON.stringify(student))
-
-            // Check and handle user profile image
             if (student.profileImage) {
 
                 router.push("/HomeView");

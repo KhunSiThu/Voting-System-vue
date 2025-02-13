@@ -55,18 +55,12 @@
 </template>
 
 <script>
-import {
-    ref
-} from "vue";
+import { ref } from "vue";
 import Loading from '../components/Loading';
-import {
-    db
-} from "@/firebase/config"; // Import Firestore
-import {
-    useRouter
-} from "vue-router";
+import { db } from "@/firebase/config"; // Import Firestore
+import { useRouter } from "vue-router";
 import getStudentById from "@/composables/getStudentById";
-import redirect from "@/composables/redirect";
+import imageCompression from "browser-image-compression"; // Import the compression library
 
 export default {
     components: {
@@ -79,13 +73,11 @@ export default {
         const uploadStatus = ref("");
         const clickSubmit = ref(false);
 
-        
         const userId = localStorage.getItem("userId");
         const router = useRouter();
 
-
         let { userData, error, load } = getStudentById(userId);
-        load()
+        load();
 
         // Function to preview the image before upload
         const previewImage = (event) => {
@@ -93,7 +85,23 @@ export default {
             if (file) {
                 imageFile.value = file;
                 imagePreview.value = URL.createObjectURL(file);
-                console.log(imagePreview.value);
+            }
+        };
+
+        // Compress the image
+        const compressImage = async (file) => {
+            const options = {
+                maxSizeMB: 1, // Maximum size in MB (1 MB)
+                maxWidthOrHeight: 1024, // Maximum width or height
+                useWebWorker: true, // Use web worker for better performance
+            };
+
+            try {
+                const compressedFile = await imageCompression(file, options);
+                return compressedFile;
+            } catch (error) {
+                console.error("Error compressing image:", error);
+                throw error;
             }
         };
 
@@ -119,18 +127,20 @@ export default {
             }
 
             try {
-                // Convert image file to base64
-                const base64Image = await convertToBase64(imageFile.value);
+                // Compress the image
+                const compressedFile = await compressImage(imageFile.value);
+
+                // Convert compressed image to base64
+                const base64Image = await convertToBase64(compressedFile);
 
                 // Store the base64 image string in Firestore
                 await db.collection("students").doc(userId).set({
                     profileImage: base64Image,
-                    
                 }, {
                     merge: true
                 });
 
-                router.push("/HomeView")
+                router.push("/HomeView");
                 resetForm();
             } catch (error) {
                 console.error("Error uploading image:", error);
@@ -153,8 +163,7 @@ export default {
             handleSubmit,
             imageFile,
             clickSubmit,
-            userData
-            
+            userData,
         };
     },
 };
